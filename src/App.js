@@ -102,21 +102,27 @@ export default function App() {
                         whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(255,255,255,0.5)" }}
                         className="relative rounded-xl overflow-hidden shadow-lg transform transition-transform cursor-pointer h-48"
                       >
-                        <Link to={item.path}>
-                          <video
-                            className="absolute inset-0 w-full h-full object-cover"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                          >
-                            <source src={item.video} type="video/mp4" />
-                          </video>
-                          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4">
-                            <h4 className="text-xl font-semibold mb-1 tracking-wide">{item.name}</h4>
-                            <p className="text-xs opacity-90">Discover how Dazzlo shapes the {item.name} industry.</p>
-                          </div>
-                        </Link>
+                        {item.name === 'Candles' ? (
+                          <a href="https://www.dazzlo.co.in" target="_blank" rel="noopener noreferrer">
+                            <video className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
+                              <source src={item.video} type="video/mp4" />
+                            </video>
+                            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4">
+                              <h4 className="text-xl font-semibold mb-1 tracking-wide">{item.name}</h4>
+                              <p className="text-xs opacity-90">Discover how Dazzlo shapes the {item.name} industry.</p>
+                            </div>
+                          </a>
+                        ) : (
+                          <Link to={item.path}>
+                            <video className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
+                              <source src={item.video} type="video/mp4" />
+                            </video>
+                            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-4">
+                              <h4 className="text-xl font-semibold mb-1 tracking-wide">{item.name}</h4>
+                              <p className="text-xs opacity-90">Discover how Dazzlo shapes the {item.name} industry.</p>
+                            </div>
+                          </Link>
+                        )}
                       </motion.div>
                     ))}
                   </div>
