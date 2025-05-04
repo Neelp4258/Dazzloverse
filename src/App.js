@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './App.css';
-import CandlesPage from './pages/CandlesPage';
 import FashionPage from './pages/FashionPage';
 import TechPage from './pages/TechPage';
 import HRPage from './pages/HRPage';
@@ -10,7 +9,7 @@ import SaaSPage from './pages/SaaSPage';
 import EcommercePage from './pages/EcommercePage';
 
 const industries = [
-  { name: 'Candles', path: '/candles', video: '/assets/medias/candles.mp4' },
+  { name: 'Candles', external: true, url: 'https://www.dazzlo.co.in', video: '/assets/medias/candles.mp4' },
   { name: 'Fashion', path: '/fashion', video: '/assets/medias/fashion.mp4' },
   { name: 'Tech', path: '/tech', video: '/assets/medias/tech.mp4' },
   { name: 'HR', path: '/hr', video: '/assets/medias/hr.mp4' },
@@ -102,8 +101,8 @@ export default function App() {
                         whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(255,255,255,0.5)" }}
                         className="relative rounded-xl overflow-hidden shadow-lg transform transition-transform cursor-pointer h-48"
                       >
-                        {item.name === 'Candles' ? (
-                          <a href="https://www.dazzlo.co.in" target="_blank" rel="noopener noreferrer">
+                        {item.external ? (
+                          <a href={item.url} target="_blank" rel="noopener noreferrer">
                             <video className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
                               <source src={item.video} type="video/mp4" />
                             </video>
@@ -181,8 +180,7 @@ export default function App() {
           }
         />
 
-        {/* Industry Routes */}
-        <Route path="/candles" element={<CandlesPage video="/assets/medias/candles.mp4" />} />
+        {/* Only keeping the other industry routes */}
         <Route path="/fashion" element={<FashionPage video="/assets/medias/fashion.mp4" />} />
         <Route path="/tech" element={<TechPage video="/assets/medias/tech.mp4" />} />
         <Route path="/hr" element={<HRPage video="/assets/medias/hr.mp4" />} />
