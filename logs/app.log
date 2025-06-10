@@ -132,3 +132,17 @@
 2025-06-10 19:14:54,666 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:14:54] "GET /login HTTP/1.1" 200 -
 2025-06-10 19:15:01,404 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:15:01] "[32mPOST /login HTTP/1.1[0m" 302 -
 2025-06-10 19:15:01,445 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:15:01] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 19:15:15,633 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:15:15] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-10 19:39:45,030 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.4:5000
+2025-06-10 19:39:45,031 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-10 19:39:45,035 INFO werkzeug  * Restarting with stat
+2025-06-10 19:39:45,944 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:39:45,954 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:39:47,886 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:39:47] "GET / HTTP/1.1" 200 -
+2025-06-10 19:39:50,545 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:39:50] "GET /signup HTTP/1.1" 200 -
+2025-06-10 19:40:11,649 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "[32mPOST /signup HTTP/1.1[0m" 302 -
+2025-06-10 19:40:11,685 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "GET /signup-payment HTTP/1.1" 200 -
+2025-06-10 19:40:11,752 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "[33mGET /static/qr.png HTTP/1.1[0m" 404 -

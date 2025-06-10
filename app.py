@@ -293,39 +293,36 @@ def signup():
         try:
             conn = sqlite3.connect('users.db')
             cursor = conn.cursor()
-            
             # Check if email already exists
             cursor.execute('SELECT id FROM users WHERE email = ?', (form.email.data,))
             if cursor.fetchone():
                 flash('Email already registered. Please use a different email or log in.', 'error')
                 return render_template('signup.html', form=form, plans=PLANS)
-            
-            # Insert new user
+            # Insert new user with free plan only
             password_hash = hash_password(form.password.data)
             today = datetime.now().strftime('%Y-%m-%d')
-            
             cursor.execute('''
                 INSERT INTO users (email, password_hash, full_name, plan, last_reset_date)
                 VALUES (?, ?, ?, ?, ?)
-            ''', (form.email.data, password_hash, form.full_name.data, form.plan.data, today))
-            
+            ''', (form.email.data, password_hash, form.full_name.data, 'free', today))
             conn.commit()
             user_id = cursor.lastrowid
             conn.close()
-            
             # Log user in
             session['user_id'] = user_id
             session['user_email'] = form.email.data
             session['user_name'] = form.full_name.data
-            session['user_plan'] = form.plan.data
-            
-            flash(f'Welcome to Dazzlo! Your {PLANS[form.plan.data]["name"]} account has been created.', 'success')
+            session['user_plan'] = 'free'
+            # If user selected a premium plan, store in session and redirect to payment
+            if form.plan.data != 'free':
+                session['pending_upgrade_plan'] = form.plan.data
+                flash('Account created! Please complete payment to activate your selected plan.', 'info')
+                return redirect(url_for('signup_payment'))
+            flash(f'Welcome to Dazzlo! Your Free Plan account has been created.', 'success')
             return redirect(url_for('dashboard'))
-            
         except Exception as e:
             app.logger.error(f"Signup error: {str(e)}")
             flash('Registration failed. Please try again.', 'error')
-    
     return render_template('signup.html', form=form, plans=PLANS)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -609,6 +606,38 @@ def admin_upgrades():
     requests = cursor.fetchall()
     conn.close()
     return render_template('admin_upgrades.html', requests=requests, plans=PLANS)
+
+@app.route('/signup-payment', methods=['GET', 'POST'])
+def signup_payment():
+    if 'pending_upgrade_plan' not in session:
+        return redirect(url_for('dashboard'))
+    plan_id = session['pending_upgrade_plan']
+    plan = PLANS.get(plan_id)
+    if not plan or plan_id == 'free':
+        return redirect(url_for('dashboard'))
+    # Render a payment page similar to the upgrade modal
+    if request.method == 'POST':
+        txn_id = request.form.get('transaction_id', '').strip()
+        if not txn_id:
+            flash('Please enter your UPI transaction ID.', 'error')
+        else:
+            # Create a pending upgrade request
+            user_id = session['user_id']
+            conn = sqlite3.connect('users.db')
+            cursor = conn.cursor()
+            cursor.execute('SELECT id FROM upgrade_requests WHERE user_id = ? AND requested_plan = ? AND status = "pending"', (user_id, plan_id))
+            if cursor.fetchone():
+                conn.close()
+                flash('You already have a pending upgrade request for this plan.', 'warning')
+                return redirect(url_for('dashboard'))
+            cursor.execute('INSERT INTO upgrade_requests (user_id, requested_plan, transaction_id, status) VALUES (?, ?, ?, ?)',
+                           (user_id, plan_id, txn_id, 'pending'))
+            conn.commit()
+            conn.close()
+            session.pop('pending_upgrade_plan', None)
+            flash('Upgrade request submitted! An admin will review and approve your upgrade soon.', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('signup_payment.html', plan=plan, plan_id=plan_id)
 
 @app.errorhandler(404)
 def not_found(error):
