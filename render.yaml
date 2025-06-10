@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: dazzlo-mailer
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: changeme-please
+      - key: ADMIN_PASSWORD
+        value: admin5503
+    disk:
+      name: uploads
+      mountPath: /uploads
+      sizeGB: 1 
