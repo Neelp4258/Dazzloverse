@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-5 mx-auto">
+        <div class="page-header text-center">
+            <h1 class="page-title">
+                <i class="fas fa-sign-in-alt me-3"></i>
+                Welcome Back
+            </h1>
+            <p class="page-subtitle">
+                Sign in to your Dazzlo account to continue sending professional emails
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="POST" id="loginForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control form-control-lg") }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.email.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control form-control-lg") }}
+                        {% if form.password.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.password.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            <span class="btn-text">Sign In</span>
+                            <span class="loading-spinner spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            Don't have an account? 
+                            <a href="{{ url_for('signup') }}" class="text-decoration-none">
+                                <strong>Create Free Account</strong>
+                            </a>
+                        </small>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Admin Login Section -->
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h6 class="mb-0"><i class="fas fa-user-shield me-2"></i>Admin Login</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('admin_upgrades') }}" id="adminLoginForm">
+                    <div class="mb-3">
+                        <label for="admin_username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="admin_username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin_password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="admin_password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Admin Login</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Quick Access for Demo -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-rocket me-2"></i>Quick Demo Access
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">
+                    <small class="text-muted">
+                        New to Dazzlo? Try our platform with these demo credentials or create your free account.
+                    </small>
+                </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100 mb-2" onclick="fillDemo('demo@dazzlo.co.in', 'demo123')">
+                            <i class="fas fa-user me-1"></i>Demo User
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('signup') }}" class="btn btn-outline-primary btn-sm w-100 mb-2">
+                            <i class="fas fa-plus me-1"></i>Create Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Preview -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-star me-2"></i>Why Choose Dazzlo?
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-shield-check fa-2x text-primary mb-2"></i>
+                            <h6 class="fw-bold">Secure & Reliable</h6>
+                            <small class="text-muted">Enterprise-grade security with 99.9% uptime</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-rocket fa-2x text-success mb-2"></i>
+                            <h6 class="fw-bold">Easy to Use</h6>
+                            <small class="text-muted">Send bulk emails in just 3 simple steps</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                            <h6 class="fw-bold">High Deliverability</h6>
+                            <small class="text-muted">99.5% delivery rate with professional SMTP</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-headset fa-2x text-warning mb-2"></i>
+                            <h6 class="fw-bold">24/7 Support</h6>
+                            <small class="text-muted">Expert support whenever you need help</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Form submission handling
+    form.addEventListener('submit', function() {
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.btn-text').textContent = 'Signing In...';
+        submitBtn.querySelector('.loading-spinner').style.display = 'inline-block';
+    });
+});
+
+function fillDemo(email, password) {
+    document.getElementById('{{ form.email.id }}').value = email;
+    document.getElementById('{{ form.password.id }}').value = password;
+    showNotification('Demo credentials filled. Click "Sign In" to continue.', 'info');
+}
+</script>
+{% endblock %}

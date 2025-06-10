@@ -1,0 +1,134 @@
+2025-06-10 18:36:33,297 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.4:5000
+2025-06-10 18:36:33,298 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-10 18:36:33,302 INFO werkzeug  * Restarting with stat
+2025-06-10 18:36:34,282 WARNING werkzeug  * Debugger is active!
+2025-06-10 18:36:34,290 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 18:36:37,945 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:36:37] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-06-10 18:36:38,141 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:36:38] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-06-10 18:36:38,159 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:36:38] "[36mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-06-10 18:36:38,261 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:36:38] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 18:36:38,286 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:36:38] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 18:37:00,442 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 18:37:00,613 INFO werkzeug  * Restarting with stat
+2025-06-10 18:39:03,267 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.4:5000
+2025-06-10 18:39:03,267 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-10 18:39:03,271 INFO werkzeug  * Restarting with stat
+2025-06-10 18:39:04,178 WARNING werkzeug  * Debugger is active!
+2025-06-10 18:39:04,183 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 18:39:05,950 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:05] "GET / HTTP/1.1" 200 -
+2025-06-10 18:39:06,382 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-10 18:39:20,666 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:20] "[35m[1mGET /signup HTTP/1.1[0m" 500 -
+2025-06-10 18:39:20,788 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:20] "GET /signup?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-06-10 18:39:20,788 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:20] "GET /signup?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-06-10 18:39:20,841 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:20] "GET /signup?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-06-10 18:39:20,874 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:39:20] "[36mGET /signup?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 18:40:18,659 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:40:18] "GET /signup HTTP/1.1" 200 -
+2025-06-10 18:40:40,813 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:40:40] "[32mPOST /signup HTTP/1.1[0m" 302 -
+2025-06-10 18:40:40,853 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:40:40] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 18:40:48,127 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:40:48] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-10 18:41:05,650 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:05] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-10 18:41:07,353 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:07] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 18:41:41,068 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:41] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-06-10 18:41:41,117 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:41] "GET / HTTP/1.1" 200 -
+2025-06-10 18:41:44,705 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:44] "GET /login HTTP/1.1" 200 -
+2025-06-10 18:41:51,429 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:41:51] "GET /signup HTTP/1.1" 200 -
+2025-06-10 18:44:50,961 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:44:50] "GET / HTTP/1.1" 200 -
+2025-06-10 18:46:32,464 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:46:32] "GET /signup?plan=professional HTTP/1.1" 200 -
+2025-06-10 18:46:50,143 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:46:50] "[32mPOST /signup?plan=professional HTTP/1.1[0m" 302 -
+2025-06-10 18:46:50,166 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:46:50] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 18:46:56,998 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:46:56] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 18:47:21,480 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:21] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 18:47:24,407 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:24] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-06-10 18:47:24,425 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:24] "GET / HTTP/1.1" 200 -
+2025-06-10 18:47:26,448 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:26] "GET / HTTP/1.1" 200 -
+2025-06-10 18:47:27,828 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:27] "GET /login HTTP/1.1" 200 -
+2025-06-10 18:47:31,999 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:31] "[35m[1mGET /signup HTTP/1.1[0m" 500 -
+2025-06-10 18:47:32,042 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:32] "[36mGET /signup?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-06-10 18:47:32,046 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:32] "[36mGET /signup?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-06-10 18:47:32,065 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:32] "[36mGET /signup?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 18:47:32,091 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:47:32] "[36mGET /signup?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 18:48:46,004 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:48:46] "GET /signup HTTP/1.1" 200 -
+2025-06-10 18:53:45,515 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 18:53:45,669 INFO werkzeug  * Restarting with stat
+2025-06-10 18:53:46,597 WARNING werkzeug  * Debugger is active!
+2025-06-10 18:53:46,601 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 18:56:31,540 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:56:31] "GET /signup HTTP/1.1" 200 -
+2025-06-10 18:56:32,873 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:56:32] "GET /signup HTTP/1.1" 200 -
+2025-06-10 18:57:01,912 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:57:01] "POST /signup HTTP/1.1" 200 -
+2025-06-10 18:57:22,515 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:57:22] "[32mPOST /signup HTTP/1.1[0m" 302 -
+2025-06-10 18:57:22,550 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 18:57:22] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 18:59:46,532 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 18:59:46,657 INFO werkzeug  * Restarting with stat
+2025-06-10 18:59:47,605 WARNING werkzeug  * Debugger is active!
+2025-06-10 18:59:47,610 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:00:55,956 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:00:56,071 INFO werkzeug  * Restarting with stat
+2025-06-10 19:00:56,721 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:00:56,725 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:01:13,821 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:01:13,935 INFO werkzeug  * Restarting with stat
+2025-06-10 19:01:14,555 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:01:14,559 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:02:45,669 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:02:45] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+2025-06-10 19:02:45,715 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:02:45] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:02:49,321 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:02:49] "GET / HTTP/1.1" 200 -
+2025-06-10 19:03:13,429 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:03:13] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:04:54,503 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:04:54] "GET / HTTP/1.1" 200 -
+2025-06-10 19:05:26,866 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:26] "GET /signup HTTP/1.1" 200 -
+2025-06-10 19:05:32,347 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:32] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:05:49,733 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:49] "GET /admin/upgrades HTTP/1.1" 200 -
+2025-06-10 19:05:50,011 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-10 19:05:58,859 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:58] "[35m[1mPOST /admin/upgrades HTTP/1.1[0m" 500 -
+2025-06-10 19:05:59,193 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:59] "GET /admin/upgrades?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-06-10 19:05:59,207 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:59] "GET /admin/upgrades?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-06-10 19:05:59,582 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:59] "GET /admin/upgrades?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-06-10 19:05:59,841 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:05:59] "[36mGET /admin/upgrades?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 19:06:36,084 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:06:36,204 INFO werkzeug  * Restarting with stat
+2025-06-10 19:06:36,873 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:06:36,878 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:06:45,893 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:06:45] "[32mPOST /admin/upgrades HTTP/1.1[0m" 302 -
+2025-06-10 19:06:45,942 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:06:45] "GET /admin/upgrades HTTP/1.1" 200 -
+2025-06-10 19:07:13,212 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:13] "GET / HTTP/1.1" 200 -
+2025-06-10 19:07:16,727 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:16] "GET /signup HTTP/1.1" 200 -
+2025-06-10 19:07:19,675 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:19] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:07:28,451 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:28] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-06-10 19:07:28,486 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:28] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 19:07:31,493 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:31] "[35m[1mGET /upgrade HTTP/1.1[0m" 500 -
+2025-06-10 19:07:31,715 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:31] "GET /upgrade?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-06-10 19:07:31,719 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:31] "GET /upgrade?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-06-10 19:07:31,771 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:31] "GET /upgrade?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-06-10 19:07:31,802 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:07:31] "[36mGET /upgrade?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-06-10 19:08:09,247 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:09] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 19:08:23,093 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:23] "POST /request-upgrade HTTP/1.1" 200 -
+2025-06-10 19:08:25,171 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:25] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 19:08:28,004 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:28] "GET /admin/upgrades HTTP/1.1" 200 -
+2025-06-10 19:08:29,925 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:29] "POST /admin/upgrades HTTP/1.1" 200 -
+2025-06-10 19:08:33,844 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:33] "GET /upgrade HTTP/1.1" 200 -
+2025-06-10 19:08:36,975 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:08:36] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 19:10:08,857 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:10:09,005 INFO werkzeug  * Restarting with stat
+2025-06-10 19:10:09,831 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:10:09,837 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:10:23,082 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:10:23] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-06-10 19:10:23,148 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:10:23] "GET / HTTP/1.1" 200 -
+2025-06-10 19:10:24,884 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:10:24] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:11:03,664 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:11:03] "[32mPOST /admin/upgrades HTTP/1.1[0m" 302 -
+2025-06-10 19:11:03,688 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:11:03] "GET /admin/upgrades HTTP/1.1" 200 -
+2025-06-10 19:11:11,272 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:11:11] "GET / HTTP/1.1" 200 -
+2025-06-10 19:14:01,076 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:14:01] "GET / HTTP/1.1" 200 -
+2025-06-10 19:14:03,375 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:14:03] "GET / HTTP/1.1" 200 -
+2025-06-10 19:14:38,252 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:14:38,409 INFO werkzeug  * Restarting with stat
+2025-06-10 19:14:39,196 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:14:39,212 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:14:47,110 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:14:47] "GET / HTTP/1.1" 200 -
+2025-06-10 19:14:54,666 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:14:54] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:15:01,404 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:15:01] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-06-10 19:15:01,445 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:15:01] "GET /dashboard HTTP/1.1" 200 -

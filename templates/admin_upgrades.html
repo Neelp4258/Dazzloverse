@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Admin - Upgrade Requests{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Pending Upgrade Requests</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>User Email</th>
+                    <th>Requested Plan</th>
+                    <th>Transaction ID</th>
+                    <th>Requested At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req[0] }}</td>
+                    <td>{{ req[1] }}</td>
+                    <td>{{ plans[req[2]].name }}</td>
+                    <td><span class="badge bg-info text-dark">{{ req[3] }}</span></td>
+                    <td>{{ req[5] }}</td>
+                    <td>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="approve_id" value="{{ req[0] }}">
+                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted">No pending requests.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,711 @@
+{% extends "base.html" %}
+
+{% block title %}Send Bulk Emails - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-paper-plane me-3"></i>
+        Send Bulk Emails
+    </h1>
+    <p class="page-subtitle">
+        Configure your email campaign settings and send professional emails with our rich text editor.
+    </p>
+</div>
+
+<form method="POST" enctype="multipart/form-data" id="bulkMailForm">
+    {{ form.hidden_tag() }}
+    
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <!-- SMTP Configuration -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-server me-2"></i>SMTP Configuration
+                        <span id="credentialStatus" style="display: none;" class="ms-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <small class="text-success">Verified</small>
+                        </span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.email.label(class="form-label") }}
+                                {{ form.email(class="form-control", id="zoho-email", placeholder="your-email@zoho.com") }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">
+                                    Use your business email address (Zoho, Gmail, or custom domain)
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.password.label(class="form-label") }}
+                                {{ form.password(class="form-control", id="zoho-password", placeholder="App password") }}
+                                {% if form.password.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.password.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>Use app password, not regular password
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-outline-primary" id="validateCredentials">
+                            <i class="fas fa-shield-check me-2"></i>
+                            <span class="btn-text">Validate SMTP Settings</span>
+                            <span class="loading-spinner spinner-border spinner-border-sm ms-2"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Content -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Email Content Designer
+                        <span class="badge bg-primary ms-2">Rich Text Editor</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        {{ form.subject.label(class="form-label") }}
+                        {{ form.subject(class="form-control form-control-lg", placeholder="Enter compelling email subject line...") }}
+                        {% if form.subject.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.subject.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.body.label(class="form-label") }}
+                        
+                        <!-- Rich Text Editor Toolbar -->
+                        <div class="editor-toolbar bg-light border rounded-top p-3">
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('bold')" title="Bold">
+                                        <i class="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('italic')" title="Italic">
+                                        <i class="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('underline')" title="Underline">
+                                        <i class="fas fa-underline"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertUnorderedList')" title="Bullet List">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertOrderedList')" title="Numbered List">
+                                        <i class="fas fa-list-ol"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyLeft')" title="Align Left">
+                                        <i class="fas fa-align-left"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyCenter')" title="Align Center">
+                                        <i class="fas fa-align-center"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyRight')" title="Align Right">
+                                        <i class="fas fa-align-right"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <select class="form-select form-select-sm" onchange="changeFontSize(this.value)" style="width: auto;">
+                                        <option value="">Font Size</option>
+                                        <option value="1">Small</option>
+                                        <option value="3">Normal</option>
+                                        <option value="5">Large</option>
+                                        <option value="7">Extra Large</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <input type="color" class="form-control form-control-sm" onchange="changeTextColor(this.value)" title="Text Color" style="width: 50px; height: 31px;">
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="insertLink()" title="Insert Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('removeFormat')" title="Clear Formatting">
+                                        <i class="fas fa-eraser"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('name')" title="Insert Name">
+                                        {name}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('email')" title="Insert Email">
+                                        {email}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('company')" title="Insert Company">
+                                        {company}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rich Text Editor -->
+                        <div class="editor-container">
+                            <div id="emailEditor" class="form-control" style="min-height: 300px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0;" contenteditable="true">
+                                <p>Dear {name},</p>
+                                <p><br></p>
+                                <p>Write your professional email message here...</p>
+                                <p><br></p>
+                                <p>Best regards,<br>Your Team</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden textarea to store the content -->
+                        {{ form.body(style="display: none;", id="hiddenBodyField") }}
+                        
+                        {% if form.body.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.body.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-text mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-magic me-1"></i>Personalization tokens:</strong>
+                                    <div class="mt-1">
+                                        <code class="me-2">{name}</code>
+                                        <code class="me-2">{email}</code>
+                                        <code>{company}</code>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-palette me-1"></i>Need custom templates?</strong>
+                                    <div class="mt-1">
+                                        <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Request" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-paint-brush me-1"></i>Get Custom Design
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Preview -->
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-outline-info" onclick="togglePreview()">
+                            <i class="fas fa-eye me-2"></i>Preview Email
+                        </button>
+                        
+                        <div id="emailPreview" class="mt-3" style="display: none;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>Email Preview
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="preview-email">
+                                        <div class="email-header mb-3 pb-2 border-bottom">
+                                            <strong>Subject:</strong> <span id="previewSubject" class="text-primary"></span>
+                                        </div>
+                                        <div class="email-body" id="previewBody">
+                                            <!-- Preview content will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File Uploads -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>File Management
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.email_list.label(class="form-label") }}
+                                {{ form.email_list(class="form-control") }}
+                                {% if form.email_list.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {% for error in form.email_list.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">CSV format: email,name,company</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.document.label(class="form-label") }}
+                                {{ form.document(class="form-control") }}
+                                {% if form.document.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {% for error in form.document.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">Optional attachment (Max 16MB)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Campaign Summary
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Status:</span>
+                        <span class="badge bg-secondary" id="campaignStatus">Not Ready</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" disabled>
+                            <i class="fas fa-rocket me-2"></i>
+                            <span class="btn-text">Launch Campaign</span>
+                            <span class="loading-spinner spinner-border spinner-border-sm ms-2"></span>
+                        </button>
+                        
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-check me-1"></i>
+                            Secure & compliant email delivery
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Templates -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-templates me-2"></i>Quick Templates
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('professional')">
+                            <i class="fas fa-briefcase me-2"></i>Professional
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('newsletter')">
+                            <i class="fas fa-newspaper me-2"></i>Newsletter
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('announcement')">
+                            <i class="fas fa-bullhorn me-2"></i>Announcement
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('invitation')">
+                            <i class="fas fa-calendar me-2"></i>Invitation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help & Support -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-headset me-2"></i>Need Help?
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <div>
+                                <small class="text-muted d-block">Phone Support</small>
+                                <a href="tel:9373015503" class="text-decoration-none fw-bold">
+                                    +91 9373015503
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <div>
+                                <small class="text-muted d-block">Email Support</small>
+                                <a href="mailto:info@dazzlo.co.in" class="text-decoration-none fw-bold">
+                                    info@dazzlo.co.in
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Request" 
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-palette me-2"></i>Request Custom Templates
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<style>
+#emailEditor {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-y: auto;
+}
+
+#emailEditor:focus {
+    outline: none;
+    border-color: var(--dazzlo-accent);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.editor-toolbar {
+    border-bottom: none;
+}
+
+.editor-toolbar .btn {
+    margin-right: 2px;
+}
+
+.preview-email {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.email-header {
+    font-size: 14px;
+}
+
+.email-body {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.email-body p {
+    margin-bottom: 1rem;
+}
+
+.email-body ul, .email-body ol {
+    margin-left: 20px;
+    margin-bottom: 1rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = document.getElementById('emailEditor');
+    const hiddenField = document.getElementById('hiddenBodyField');
+    const validateBtn = document.getElementById('validateCredentials');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusElement = document.getElementById('campaignStatus');
+    const credentialStatus = document.getElementById('credentialStatus');
+    
+    // CRITICAL FIX: Improved content syncing to preserve HTML
+    function syncEditorContent() {
+        // Get the HTML content from the editor
+        let htmlContent = editor.innerHTML;
+        
+        // Clean up some common contenteditable issues
+        htmlContent = htmlContent
+            .replace(/<div><br><\/div>/g, '<p><br></p>') // Convert empty divs to paragraphs
+            .replace(/<div>/g, '<p>') // Convert divs to paragraphs
+            .replace(/<\/div>/g, '</p>') // Convert closing divs to closing paragraphs
+            .replace(/<br><br>/g, '<br>') // Remove duplicate breaks
+            .trim();
+        
+        // Ensure we have proper paragraph structure
+        if (!htmlContent.startsWith('<p>') && !htmlContent.startsWith('<div>') && !htmlContent.startsWith('<h') && htmlContent.length > 0) {
+            htmlContent = '<p>' + htmlContent + '</p>';
+        }
+        
+        hiddenField.value = htmlContent;
+        console.log('Synced content:', htmlContent); // Debug log
+        updateCampaignStatus();
+    }
+    
+    // Update campaign status
+    function updateCampaignStatus() {
+        const email = document.getElementById('zoho-email').value;
+        const password = document.getElementById('zoho-password').value;
+        const subject = document.getElementById('{{ form.subject.id }}').value;
+        const body = editor.innerHTML.trim();
+        const csvFile = document.getElementById('{{ form.email_list.id }}').files[0];
+        const hasCredentials = credentialStatus.style.display !== 'none';
+        
+        if (hasCredentials && csvFile && subject && body && body !== '<p><br></p>') {
+            statusElement.textContent = 'Ready to Send';
+            statusElement.className = 'badge bg-success';
+            submitBtn.disabled = false;
+        } else {
+            statusElement.textContent = 'Configuration Incomplete';
+            statusElement.className = 'badge bg-warning';
+            submitBtn.disabled = true;
+        }
+    }
+    
+    // Rich text editor event listeners with improved handling
+    editor.addEventListener('input', function() {
+        setTimeout(syncEditorContent, 100); // Small delay to ensure content is updated
+    });
+    
+    editor.addEventListener('paste', function(e) {
+        // Allow default paste behavior, then clean up
+        setTimeout(function() {
+            syncEditorContent();
+        }, 200);
+    });
+    
+    // Handle key events for better content preservation
+    editor.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
+            setTimeout(syncEditorContent, 50);
+        }
+    });
+    
+    // Load initial content if exists
+    if (hiddenField.value && hiddenField.value.trim() !== '') {
+        editor.innerHTML = hiddenField.value;
+    }
+    
+    // Validate credentials
+    validateBtn.addEventListener('click', function() {
+        const email = document.getElementById('zoho-email').value;
+        const password = document.getElementById('zoho-password').value;
+        
+        if (!email || !password) {
+            showNotification('Please enter both email and password', 'error');
+            return;
+        }
+        
+        this.classList.add('loading');
+        this.disabled = true;
+        
+        fetch('/api/validate-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                credentialStatus.style.display = 'inline-block';
+                showNotification('SMTP credentials validated successfully!', 'success');
+                updateCampaignStatus();
+            } else {
+                showNotification('Validation failed: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Connection error occurred', 'error');
+        })
+        .finally(() => {
+            this.classList.remove('loading');
+            this.disabled = false;
+        });
+    });
+    
+    // Form submission with improved validation
+    document.getElementById('bulkMailForm').addEventListener('submit', function(e) {
+        // Force sync content before submission
+        syncEditorContent();
+        
+        const csvFile = document.getElementById('{{ form.email_list.id }}').files[0];
+        const hasCredentials = credentialStatus.style.display !== 'none';
+        const bodyContent = hiddenField.value.trim();
+        
+        console.log('Form submission - Body content:', bodyContent); // Debug log
+        
+        if (!csvFile) {
+            e.preventDefault();
+            showNotification('Please upload a CSV file with email addresses', 'error');
+            return;
+        }
+        
+        if (!hasCredentials) {
+            e.preventDefault();
+            showNotification('Please validate your SMTP credentials first', 'error');
+            return;
+        }
+        
+        if (!bodyContent || bodyContent === '<p><br></p>' || bodyContent === '<br>' || bodyContent === '') {
+            e.preventDefault();
+            showNotification('Please enter email content', 'error');
+            return;
+        }
+        
+        if (!confirm('Are you sure you want to launch this email campaign? This action cannot be undone.')) {
+            e.preventDefault();
+            return;
+        }
+    });
+    
+    // Update status on form changes
+    ['input', 'change'].forEach(event => {
+        document.addEventListener(event, updateCampaignStatus);
+    });
+    
+    // Initial status update
+    updateCampaignStatus();
+});
+
+// Rich text formatting functions
+function formatText(command, value = null) {
+    document.execCommand(command, false, value);
+    document.getElementById('emailEditor').focus();
+    // Sync content after formatting
+    setTimeout(function() {
+        document.dispatchEvent(new CustomEvent('editorContentChanged'));
+    }, 50);
+}
+
+function changeFontSize(size) {
+    if (size) {
+        formatText('fontSize', size);
+    }
+}
+
+function changeTextColor(color) {
+    formatText('foreColor', color);
+}
+
+function insertLink() {
+    const url = prompt('Enter the URL:');
+    if (url) {
+        formatText('createLink', url);
+    }
+}
+
+function insertPersonalization(type) {
+    const editor = document.getElementById('emailEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode('{' + type + '}'));
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    } else {
+        editor.focus();
+        formatText('insertText', '{' + type + '}');
+    }
+    
+    // Trigger content sync
+    setTimeout(function() {
+        document.getElementById('emailEditor').dispatchEvent(new Event('input'));
+    }, 100);
+}
+
+function togglePreview() {
+    const preview = document.getElementById('emailPreview');
+    const subject = document.getElementById('{{ form.subject.id }}').value;
+    const body = document.getElementById('emailEditor').innerHTML;
+    
+    if (preview.style.display === 'none') {
+        preview.style.display = 'block';
+        
+        // Update preview content
+        document.getElementById('previewSubject').textContent = subject || '[No Subject]';
+        
+        // Replace personalization tokens for preview with proper HTML rendering
+        let previewBody = body
+            .replace(/{name}/g, '<strong style="color: var(--dazzlo-primary); background: #fff3cd; padding: 2px 4px; border-radius: 3px;">John Doe</strong>')
+            .replace(/{email}/g, '<strong style="color: var(--dazzlo-accent); background: #d4edda; padding: 2px 4px; border-radius: 3px;">john@example.com</strong>')
+            .replace(/{company}/g, '<strong style="color: var(--dazzlo-success); background: #cce5ff; padding: 2px 4px; border-radius: 3px;">Example Corp</strong>');
+        
+        // Use innerHTML to render HTML properly in preview
+        document.getElementById('previewBody').innerHTML = previewBody;
+        
+        event.target.innerHTML = '<i class="fas fa-eye-slash me-2"></i>Hide Preview';
+    } else {
+        preview.style.display = 'none';
+        event.target.innerHTML = '<i class="fas fa-eye me-2"></i>Preview Email';
+    }
+}
+
+// Email templates with proper HTML structure
+function loadTemplate(templateType) {
+    const editor = document.getElementById('emailEditor');
+    let content = '';
+    
+    switch(templateType) {
+        case 'professional':
+            content = '<p>Dear {name},</p><p><br></p><p>I hope this email finds you well. I am writing to inform you about an important update regarding our services.</p><p><br></p><p><strong>Key highlights:</strong></p><ul><li>Enhanced security features</li><li>Improved user experience</li><li>24/7 customer support</li></ul><p><br></p><p>Should you have any questions, please don\'t hesitate to reach out to our team.</p><p><br></p><p>Best regards,<br><strong>The Dazzlo Team</strong><br>info@dazzlo.co.in</p>';
+            break;
+            
+        case 'newsletter':
+            content = '<h2 style="color: #2c3e50;">Monthly Newsletter</h2><p>Hello {name},</p><p><br></p><p>Welcome to our monthly newsletter! Here\'s what\'s new at {company}:</p><p><br></p><h3 style="color: #3498db;">This Month\'s Highlights</h3><ol><li><strong>Product Updates:</strong> New features and improvements</li><li><strong>Industry News:</strong> Latest trends and insights</li><li><strong>Customer Spotlight:</strong> Success stories from our community</li></ol><p><br></p><p><em>Thank you for being part of our community!</em></p><p><br></p><p>Warm regards,<br>The Newsletter Team</p>';
+            break;
+            
+        case 'announcement':
+            content = '<div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #3498db; margin-bottom: 20px;"><h2 style="color: #2c3e50; margin-top: 0;">🎉 Important Announcement</h2></div><p>Dear {name},</p><p><br></p><p>We\'re excited to share some <strong>important news</strong> with you!</p><p><br></p><p style="font-size: 16px; background: #e8f5e8; padding: 15px; border-radius: 5px;"><strong>📢 [Your announcement details here]</strong></p><p><br></p><p><strong>What this means for you:</strong></p><ul><li>Benefit #1</li><li>Benefit #2</li><li>Benefit #3</li></ul><p><br></p><p>Questions? Contact us at info@dazzlo.co.in</p><p><br></p><p>Best regards,<br>The Dazzlo Team</p>';
+            break;
+            
+        case 'invitation':
+            content = '<div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;"><h1 style="margin: 0; font-size: 28px;">🎊 You\'re Invited! 🎊</h1></div><p>Dear {name},</p><p><br></p><p>We\'re delighted to invite you to our upcoming event!</p><p><br></p><div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;"><h3 style="color: #2c3e50; margin-top: 0;">[Event Name]</h3><p><strong>📅 Date:</strong> [Event Date]</p><p><strong>🕐 Time:</strong> [Event Time]</p><p><strong>📍 Location:</strong> [Event Location]</p></div><p><br></p><p>We look forward to seeing you there!</p><p><br></p><p>Best regards,<br>The Event Team</p>';
+            break;
+    }
+    
+    editor.innerHTML = content;
+    
+    // Trigger content sync after loading template
+    setTimeout(function() {
+        const event = new Event('input', { bubbles: true });
+        editor.dispatchEvent(event);
+    }, 100);
+    
+    showNotification('Template loaded successfully!', 'success');
+}
+
+// Custom event listener for editor content changes
+document.addEventListener('editorContentChanged', function() {
+    const editor = document.getElementById('emailEditor');
+    const hiddenField = document.getElementById('hiddenBodyField');
+    if (editor && hiddenField) {
+        hiddenField.value = editor.innerHTML;
+    }
+});
+</script>
+{% endblock %}
