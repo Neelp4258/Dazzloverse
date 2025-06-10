@@ -13,46 +13,66 @@ from typing import List, Dict, Optional
 from html import unescape
 import io
 
-class ZohoBulkMailer:
-    """Zoho bulk email sender with SMTP support"""
-    
+class BulkMailer:
+    """Generic bulk email sender supporting Zoho, Outlook, Gmail, and Google Workspace SMTP"""
+    SMTP_CONFIGS = [
+        # Gmail and Google Workspace
+        {
+            'domains': ['gmail.com', 'googlemail.com'],
+            'server': 'smtp.gmail.com',
+            'port': 587
+        },
+        {
+            'domains': ['outlook.com', 'hotmail.com', 'live.com', 'office365.com', 'microsoft.com'],
+            'server': 'smtp.office365.com',
+            'port': 587
+        },
+        # Zoho
+        {
+            'domains': ['zoho.com', 'zohomail.com'],
+            'server': 'smtp.zoho.com',
+            'port': 587
+        },
+        {
+            'domains': ['zoho.in'],
+            'server': 'smtp.zoho.in',
+            'port': 587
+        },
+        {
+            'domains': ['zoho.eu'],
+            'server': 'smtp.zoho.eu',
+            'port': 587
+        },
+    ]
+
     def __init__(self, email: str, password: str):
         self.email = email
         self.password = password
-        
-        # Hardcode smtp.zoho.in for .co.in domains (from debug test)
-        if '.co.in' in email.lower():
-            self.smtp_server = 'smtp.zoho.in'
-        elif '.in' in email.lower():
-            self.smtp_server = 'smtp.zoho.in'
-        elif '.eu' in email.lower():
-            self.smtp_server = 'smtp.zoho.eu'
-        elif '@zohomail.com' in email.lower():
-            self.smtp_server = 'smtp.zoho.com'
-        else:
-            self.smtp_server = 'smtp.zoho.com'
-            
-        self.smtp_port = 587
+        self.smtp_server, self.smtp_port = self._detect_smtp_server(email)
         self.logger = logging.getLogger(__name__)
-        
         print(f"DEBUG: Using SMTP server: {self.smtp_server} for email: {email}")
-        
+
+    def _detect_smtp_server(self, email: str):
+        domain = email.split('@')[-1].lower()
+        for config in self.SMTP_CONFIGS:
+            if any(domain.endswith(d) for d in config['domains']):
+                return config['server'], config['port']
+        # Default fallback
+        return 'smtp.gmail.com', 587
+
     def test_connection(self) -> bool:
         """Test SMTP connection with provided credentials"""
         try:
             print(f"DEBUG: Testing connection to {self.smtp_server}:{self.smtp_port}")
-            
             server = smtplib.SMTP(self.smtp_server, self.smtp_port)
             server.starttls()
             server.login(self.email, self.password)
             server.quit()
-            
             print("DEBUG: Connection successful!")
             return True
-            
         except Exception as e:
             print(f"DEBUG: Connection failed: {e}")
-            raise Exception(f"Failed to connect to Zoho SMTP: {str(e)}")
+            raise Exception(f"Failed to connect to SMTP: {str(e)}")
     
     def validate_email(self, email: str) -> bool:
         """Validate email address format"""

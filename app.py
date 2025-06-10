@@ -11,7 +11,7 @@ import sqlite3
 import hashlib
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
-from zoho_fixed import ZohoBulkMailer
+from zoho_fixed import BulkMailer
 from markupsafe import Markup
 from functools import wraps
 
@@ -437,7 +437,7 @@ def bulk_mail():
                 form.document.data.save(document_path)
             
             # Initialize mailer
-            mailer = ZohoBulkMailer(
+            mailer = BulkMailer(
                 email=form.email.data,
                 password=form.password.data
             )
@@ -500,7 +500,7 @@ def validate_email():
             return jsonify({'valid': False, 'message': 'Email and password required'})
         
         try:
-            mailer = ZohoBulkMailer(email=email, password=password)
+            mailer = BulkMailer(email=email, password=password)
             mailer.test_connection()
             return jsonify({'valid': True, 'message': 'Credentials validated successfully'})
         except Exception as e:

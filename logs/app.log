@@ -146,3 +146,22 @@
 2025-06-10 19:40:11,649 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "[32mPOST /signup HTTP/1.1[0m" 302 -
 2025-06-10 19:40:11,685 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "GET /signup-payment HTTP/1.1" 200 -
 2025-06-10 19:40:11,752 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:40:11] "[33mGET /static/qr.png HTTP/1.1[0m" 404 -
+2025-06-10 19:40:44,240 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\app.py', reloading
+2025-06-10 19:40:44,410 INFO werkzeug  * Restarting with stat
+2025-06-10 19:40:45,208 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:40:45,225 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:56:17,627 INFO werkzeug  * Detected change in 'C:\\Users\\sidsu\\OneDrive\\Desktop\\Dazzlo Mailer\\zoho_fixed.py', reloading
+2025-06-10 19:56:17,809 INFO werkzeug  * Restarting with stat
+2025-06-10 19:57:16,421 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.13.48:5000
+2025-06-10 19:57:16,422 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-10 19:57:16,426 INFO werkzeug  * Restarting with stat
+2025-06-10 19:57:17,336 WARNING werkzeug  * Debugger is active!
+2025-06-10 19:57:17,342 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-10 19:57:18,665 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:18] "GET / HTTP/1.1" 200 -
+2025-06-10 19:57:20,876 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:20] "GET /login HTTP/1.1" 200 -
+2025-06-10 19:57:27,132 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:27] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-06-10 19:57:27,171 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:27] "GET /dashboard HTTP/1.1" 200 -
+2025-06-10 19:57:30,459 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:30] "GET /bulk-mail HTTP/1.1" 200 -
