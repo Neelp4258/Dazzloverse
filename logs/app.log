@@ -165,3 +165,98 @@
 2025-06-10 19:57:27,132 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:27] "[32mPOST /login HTTP/1.1[0m" 302 -
 2025-06-10 19:57:27,171 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:27] "GET /dashboard HTTP/1.1" 200 -
 2025-06-10 19:57:30,459 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:30] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-10 19:57:45,111 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:45] "POST /api/validate-email HTTP/1.1" 200 -
+2025-06-10 19:57:56,080 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:57:56] "POST /api/validate-email HTTP/1.1" 200 -
+2025-06-10 19:58:30,875 INFO werkzeug 127.0.0.1 - - [10/Jun/2025 19:58:30] "POST /api/validate-email HTTP/1.1" 200 -
+2025-06-11 10:41:23,329 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.4:5000
+2025-06-11 10:41:23,332 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-11 10:41:23,335 INFO werkzeug  * Restarting with stat
+2025-06-11 10:41:23,988 WARNING werkzeug  * Debugger is active!
+2025-06-11 10:41:23,994 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-11 10:41:25,913 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:41:25] "GET / HTTP/1.1" 200 -
+2025-06-11 10:41:25,973 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:41:25] "[33mGET /static/logo.png HTTP/1.1[0m" 404 -
+2025-06-11 10:41:26,307 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:41:26] "[33mGET /static/favicon.png HTTP/1.1[0m" 404 -
+2025-06-11 10:47:16,533 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:16] "GET / HTTP/1.1" 200 -
+2025-06-11 10:47:16,631 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:16] "GET /static/logo.png HTTP/1.1" 200 -
+2025-06-11 10:47:20,403 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:20] "GET / HTTP/1.1" 200 -
+2025-06-11 10:47:20,438 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:20] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:47:49,048 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:49] "GET / HTTP/1.1" 200 -
+2025-06-11 10:47:49,071 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:49] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:47:50,292 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:50] "GET / HTTP/1.1" 200 -
+2025-06-11 10:47:50,320 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:50] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:47:50,622 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:50] "GET / HTTP/1.1" 200 -
+2025-06-11 10:47:50,648 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:47:50] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:17,288 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:17] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:17,330 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:17] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:17,864 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:17] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:17,899 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:17] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:18,038 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:18] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:18,080 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:18] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:18,197 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:18] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:18,229 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:18] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:49,889 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:49] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:49,962 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:49] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:48:55,716 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:55] "GET / HTTP/1.1" 200 -
+2025-06-11 10:48:55,773 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:48:55] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:50:21,238 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:50:21] "GET / HTTP/1.1" 200 -
+2025-06-11 10:50:21,305 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:50:21] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:51:21,409 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:51:21] "GET / HTTP/1.1" 200 -
+2025-06-11 10:51:21,452 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:51:21] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:52:05,376 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:05] "GET / HTTP/1.1" 200 -
+2025-06-11 10:52:05,437 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:05] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:52:05,826 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:05] "GET / HTTP/1.1" 200 -
+2025-06-11 10:52:05,852 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:05] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:52:06,004 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:06] "GET / HTTP/1.1" 200 -
+2025-06-11 10:52:06,040 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:06] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:52:06,155 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:06] "GET / HTTP/1.1" 200 -
+2025-06-11 10:52:06,185 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:06] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:52:17,709 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:17] "GET / HTTP/1.1" 200 -
+2025-06-11 10:52:17,763 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:52:17] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:00,393 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:00,442 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:00,615 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:00,650 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:00,787 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:00,820 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:00,960 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:00,994 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:00] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:01,159 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:01] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:01,197 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:01] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:02,683 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:02] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:02,722 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:02] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:07,710 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:07] "GET /login HTTP/1.1" 200 -
+2025-06-11 10:53:07,756 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:07] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:10,586 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:10] "GET /signup HTTP/1.1" 200 -
+2025-06-11 10:53:10,622 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:10] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 10:53:14,235 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:14] "GET / HTTP/1.1" 200 -
+2025-06-11 10:53:14,288 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 10:53:14] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:00:25,975 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:25] "GET / HTTP/1.1" 200 -
+2025-06-11 11:00:26,040 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:26] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:00:28,565 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:28] "GET /login HTTP/1.1" 200 -
+2025-06-11 11:00:28,628 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:28] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:00:36,768 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:36] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-06-11 11:00:36,820 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:36] "GET /dashboard HTTP/1.1" 200 -
+2025-06-11 11:00:36,870 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:36] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:00:40,167 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:40] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-11 11:00:40,196 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:00:40] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:02:27,647 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:02:27] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-11 11:02:27,692 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:02:27] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:03:32,403 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:03:32] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-11 11:03:32,450 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:03:32] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 11:04:11,644 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:04:11] "GET /bulk-mail HTTP/1.1" 200 -
+2025-06-11 11:04:11,686 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 11:04:11] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 15:44:43,673 INFO werkzeug [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.4:5000
+2025-06-11 15:44:43,674 INFO werkzeug [33mPress CTRL+C to quit[0m
+2025-06-11 15:44:43,677 INFO werkzeug  * Restarting with stat
+2025-06-11 15:44:44,284 WARNING werkzeug  * Debugger is active!
+2025-06-11 15:44:44,290 INFO werkzeug  * Debugger PIN: 592-236-368
+2025-06-11 15:44:50,094 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 15:44:50] "GET / HTTP/1.1" 200 -
+2025-06-11 15:44:50,254 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 15:44:50] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+2025-06-11 15:44:50,508 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 15:44:50] "GET /static/favicon.png HTTP/1.1" 200 -
+2025-06-11 15:44:50,531 INFO werkzeug 127.0.0.1 - - [11/Jun/2025 15:44:50] "[36mGET /static/favicon.png HTTP/1.1[0m" 304 -

@@ -33,6 +33,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
+                                <label for="smtp-provider" class="form-label">SMTP Provider</label>
+                                {{ form.smtp_provider(id="smtp-provider") }}
+                                <small class="form-text text-muted">Choose your email provider or select Custom SMTP</small>
+                            </div>
+                            <div class="mb-3">
                                 {{ form.email.label(class="form-label") }}
                                 {{ form.email(class="form-control", id="zoho-email", placeholder="your-email@zoho.com") }}
                                 {% if form.email.errors %}
@@ -44,8 +49,6 @@
                                     Use your business email address (Zoho, Gmail, or custom domain)
                                 </small>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="mb-3">
                                 {{ form.password.label(class="form-label") }}
                                 {{ form.password(class="form-control", id="zoho-password", placeholder="App password") }}
@@ -57,6 +60,16 @@
                                 <small class="form-text text-muted">
                                     <i class="fas fa-info-circle me-1"></i>Use app password, not regular password
                                 </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 custom-smtp-fields" style="display:none;">
+                            <div class="mb-3">
+                                <label for="smtp-server" class="form-label">SMTP Server</label>
+                                {{ form.smtp_server(id="smtp-server") }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="smtp-port" class="form-label">SMTP Port</label>
+                                {{ form.smtp_port(id="smtp-port") }}
                             </div>
                         </div>
                     </div>
@@ -537,19 +550,27 @@ document.addEventListener('DOMContentLoaded', function() {
     validateBtn.addEventListener('click', function() {
         const email = document.getElementById('zoho-email').value;
         const password = document.getElementById('zoho-password').value;
-        
+        const provider = document.getElementById('smtp-provider').value;
+        let smtpServer = '';
+        let smtpPort = '';
+        if (provider === 'custom') {
+            smtpServer = document.getElementById('smtp-server').value;
+            smtpPort = document.getElementById('smtp-port').value;
+        }
         if (!email || !password) {
             showNotification('Please enter both email and password', 'error');
             return;
         }
-        
+        if (provider === 'custom' && (!smtpServer || !smtpPort)) {
+            showNotification('Please enter custom SMTP server and port', 'error');
+            return;
+        }
         this.classList.add('loading');
         this.disabled = true;
-        
         fetch('/api/validate-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password })
+            body: JSON.stringify({ email: email, password: password, smtp_server: smtpServer, smtp_port: smtpPort })
         })
         .then(response => response.json())
         .then(data => {
@@ -613,6 +634,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial status update
     updateCampaignStatus();
+
+    const providerSelect = document.getElementById('smtp-provider');
+    const customFields = document.querySelector('.custom-smtp-fields');
+    function toggleCustomFields() {
+        if (providerSelect.value === 'custom') {
+            customFields.style.display = '';
+        } else {
+            customFields.style.display = 'none';
+        }
+    }
+    providerSelect.addEventListener('change', toggleCustomFields);
+    toggleCustomFields();
 });
 
 // Rich text formatting functions

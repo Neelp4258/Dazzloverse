@@ -276,6 +276,18 @@ class BulkMailForm(FlaskForm):
         FileAllowed(['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'], 
                    'Only PDF, Word, PowerPoint, and Excel files are allowed!')
     ])
+    smtp_provider = SelectField('SMTP Provider', choices=[
+        ('auto', 'Auto (Detect from Email)'),
+        ('zoho', 'Zoho'),
+        ('gmail', 'Gmail/Google Workspace'),
+        ('outlook', 'Outlook/Office365'),
+        ('ses', 'Amazon SES'),
+        ('sendgrid', 'SendGrid'),
+        ('mailgun', 'Mailgun'),
+        ('custom', 'Custom SMTP')
+    ], default='auto', render_kw={"class": "form-select"})
+    smtp_server = StringField('SMTP Server', render_kw={"placeholder": "smtp.example.com", "class": "form-control"})
+    smtp_port = StringField('SMTP Port', render_kw={"placeholder": "587", "class": "form-control"})
 
 # Routes
 @app.route('/')
@@ -436,11 +448,21 @@ def bulk_mail():
                 )
                 form.document.data.save(document_path)
             
-            # Initialize mailer
-            mailer = BulkMailer(
-                email=form.email.data,
-                password=form.password.data
-            )
+            # Initialize mailer with custom SMTP if provided
+            smtp_server = form.smtp_server.data.strip() if form.smtp_server.data else None
+            smtp_port = int(form.smtp_port.data.strip()) if form.smtp_port.data else None
+            if form.smtp_provider.data == 'custom' and smtp_server and smtp_port:
+                mailer = BulkMailer(
+                    email=form.email.data,
+                    password=form.password.data,
+                    smtp_server=smtp_server,
+                    smtp_port=smtp_port
+                )
+            else:
+                mailer = BulkMailer(
+                    email=form.email.data,
+                    password=form.password.data
+                )
             
             # Read recipients
             recipients = mailer.read_emails_from_csv(email_list_path)
@@ -495,12 +517,17 @@ def validate_email():
         data = request.get_json()
         email = data.get('email')
         password = data.get('password')
+        smtp_server = data.get('smtp_server')
+        smtp_port = data.get('smtp_port')
         
         if not email or not password:
             return jsonify({'valid': False, 'message': 'Email and password required'})
         
         try:
-            mailer = BulkMailer(email=email, password=password)
+            if smtp_server and smtp_port:
+                mailer = BulkMailer(email=email, password=password, smtp_server=smtp_server, smtp_port=int(smtp_port))
+            else:
+                mailer = BulkMailer(email=email, password=password)
             mailer.test_connection()
             return jsonify({'valid': True, 'message': 'Credentials validated successfully'})
         except Exception as e:

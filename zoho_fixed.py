@@ -43,12 +43,34 @@ class BulkMailer:
             'server': 'smtp.zoho.eu',
             'port': 587
         },
+        # Amazon SES (default to us-east-1, allow manual override)
+        {
+            'domains': ['amazonses.com', 'ses.amazonaws.com'],
+            'server': 'email-smtp.us-east-1.amazonaws.com',
+            'port': 587
+        },
+        # SendGrid
+        {
+            'domains': ['sendgrid.net'],
+            'server': 'smtp.sendgrid.net',
+            'port': 587
+        },
+        # Mailgun
+        {
+            'domains': ['mailgun.org'],
+            'server': 'smtp.mailgun.org',
+            'port': 587
+        },
     ]
 
-    def __init__(self, email: str, password: str):
+    def __init__(self, email: str, password: str, smtp_server: str = None, smtp_port: int = None):
         self.email = email
         self.password = password
-        self.smtp_server, self.smtp_port = self._detect_smtp_server(email)
+        if smtp_server and smtp_port:
+            self.smtp_server = smtp_server
+            self.smtp_port = smtp_port
+        else:
+            self.smtp_server, self.smtp_port = self._detect_smtp_server(email)
         self.logger = logging.getLogger(__name__)
         print(f"DEBUG: Using SMTP server: {self.smtp_server} for email: {email}")
 
@@ -57,8 +79,8 @@ class BulkMailer:
         for config in self.SMTP_CONFIGS:
             if any(domain.endswith(d) for d in config['domains']):
                 return config['server'], config['port']
-        # Default fallback
-        return 'smtp.gmail.com', 587
+        # Default fallback: Custom SMTP (user must provide)
+        return 'smtp.example.com', 587
 
     def test_connection(self) -> bool:
         """Test SMTP connection with provided credentials"""
