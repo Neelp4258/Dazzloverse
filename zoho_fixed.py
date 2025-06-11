@@ -137,70 +137,46 @@ class BulkMailer:
             return best_delimiter
     
     def read_emails_from_csv(self, csv_path: str) -> List[Dict[str, str]]:
-        """Read email addresses and names from CSV file without pandas"""
+        """Read email addresses and company from CSV file. Name is always 'Team of {company}' if company is present."""
         recipients = []
-        
         try:
             # Detect delimiter
             delimiter = self.detect_csv_delimiter(csv_path)
-            
             with open(csv_path, 'r', newline='', encoding='utf-8') as file:
-                # Try different encodings if UTF-8 fails
                 try:
                     content = file.read()
                 except UnicodeDecodeError:
                     file.seek(0)
                     content = file.read().encode('utf-8', errors='ignore').decode('utf-8')
-                
-                # Use StringIO to handle the content
                 csv_content = io.StringIO(content)
                 reader = csv.DictReader(csv_content, delimiter=delimiter)
-                
-                # Clean up field names (remove whitespace and make lowercase)
                 if reader.fieldnames:
                     reader.fieldnames = [field.strip().lower() if field else '' for field in reader.fieldnames]
-                
                 for row_num, row in enumerate(reader, 1):
-                    if not row:  # Skip empty rows
+                    if not row:
                         continue
-                        
-                    # Clean up row data
                     clean_row = {}
                     for k, v in row.items():
-                        if k:  # Only process non-empty keys
+                        if k:
                             clean_row[k.strip().lower()] = v.strip() if v else ''
-                    
-                    # Try different possible email column names
+                    # Email
                     email = None
-                    name = None
                     company = None
-                    
-                    # Look for email in various column names
                     email_columns = ['email', 'email_address', 'mail', 'e-mail', 'emailaddress', 'e_mail']
                     for email_col in email_columns:
                         if email_col in clean_row and clean_row[email_col]:
                             email = clean_row[email_col].strip()
                             break
-                    
-                    # CRITICAL FIX: Look for name in various column names and handle properly
-                    name_columns = ['name', 'full_name', 'firstname', 'first_name', 'recipient', 'fullname', 'full name']
-                    for name_col in name_columns:
-                        if name_col in clean_row and clean_row[name_col]:
-                            name = clean_row[name_col].strip()
-                            break
-                    
-                    # Look for company in various column names
                     company_columns = ['company', 'organization', 'org', 'business', 'company_name']
                     for company_col in company_columns:
                         if company_col in clean_row and clean_row[company_col]:
                             company = clean_row[company_col].strip()
                             break
-                    
-                    # Validate and add recipient
                     if email and self.validate_email(email):
-                        # IMPORTANT: Use the name from CSV or fallback to email prefix
-                        display_name = name if name else email.split('@')[0].replace('.', ' ').replace('_', ' ').title()
-                        
+                        if company:
+                            display_name = f"Team of {company}"
+                        else:
+                            display_name = "Team"
                         recipients.append({
                             'email': email,
                             'name': display_name,
@@ -209,14 +185,11 @@ class BulkMailer:
                         self.logger.info(f"Added recipient: {email} (Name: {display_name})")
                     else:
                         self.logger.warning(f"Invalid or missing email in row {row_num}: {email}")
-                        
         except Exception as e:
             self.logger.error(f"Error reading CSV file: {str(e)}")
             raise Exception(f"Failed to read email list: {str(e)}")
-        
         if not recipients:
             raise Exception("No valid email addresses found in CSV file. Please check the format.")
-        
         self.logger.info(f"Successfully loaded {len(recipients)} recipients")
         return recipients
     
