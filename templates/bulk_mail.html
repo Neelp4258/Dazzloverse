@@ -271,6 +271,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="d-flex align-items-center gap-2 mt-2">
+                        <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#csvNotepadModal">
+                            <i class="fas fa-sticky-note me-1"></i> Quick CSV Notepad
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,6 +385,27 @@
         </div>
     </div>
 </form>
+
+<!-- CSV Notepad Modal -->
+<div class="modal fade" id="csvNotepadModal" tabindex="-1" aria-labelledby="csvNotepadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="csvNotepadModalLabel"><i class="fas fa-sticky-note me-2"></i>Quick CSV Notepad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea id="csvNotepadTextarea" class="form-control" rows="10" style="font-family:monospace;resize:vertical;">email,company
+</textarea>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button type="button" class="btn btn-outline-success btn-sm" onclick="downloadCsvNotepad()"><i class="fas fa-download me-1"></i>Download CSV</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="useCsvNotepad()"><i class="fas fa-upload me-1"></i>Use This CSV</button>
+        </div>
+        <div class="form-text mt-2">Tip: Paste or type your CSV data here. Example:<br><code>email,company\njohn@abc.com,ABC Corp</code></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
 #emailEditor {
@@ -707,5 +733,31 @@ document.addEventListener('editorContentChanged', function() {
         hiddenField.value = editor.innerHTML;
     }
 });
+
+// CSV Notepad Functions
+function downloadCsvNotepad() {
+  const text = document.getElementById('csvNotepadTextarea').value;
+  const blob = new Blob([text], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'contacts.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function useCsvNotepad() {
+  const text = document.getElementById('csvNotepadTextarea').value;
+  const blob = new Blob([text], { type: 'text/csv' });
+  const file = new File([blob], 'contacts.csv', { type: 'text/csv' });
+  const input = document.querySelector('input[name="email_list"]');
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  input.files = dataTransfer.files;
+  const modal = bootstrap.Modal.getInstance(document.getElementById('csvNotepadModal'));
+  modal.hide();
+  showNotification('CSV created and added to upload field!', 'success');
+}
 </script>
 {% endblock %}

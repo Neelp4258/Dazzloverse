@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Dazzlo Business Email Platform{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
     
     <!-- Bootstrap CSS with fallback -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -85,6 +87,20 @@
             .col-md-6, .col-lg-4, .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
             .nav-links { flex-direction: column; gap: 10px; }
             .page-title { font-size: 2rem; }
+            .dazzlo-logo img { height: 40px !important; margin-right: 6px !important; }
+            .dazzlo-logo span span:first-child { font-size: 1.1rem !important; }
+            .dazzlo-logo span span:last-child { font-size: 0.6rem !important; }
+            .header-section .container > .d-flex { flex-direction: column; align-items: flex-start !important; gap: 10px; }
+        }
+
+        @media (max-width: 576px) {
+            .container, .main-container { padding: 0 6px !important; }
+            .card { padding: 10px !important; margin: 10px 0 !important; }
+            .row { margin: 0 -4px !important; }
+            [class^='col-'], [class*=' col-'] { padding: 0 4px !important; }
+            .page-title { font-size: 1.3rem !important; }
+            .page-subtitle { font-size: 0.9rem !important; }
+            .btn, .btn-lg { padding: 8px 12px !important; font-size: 1rem !important; }
         }
     </style>
     
@@ -108,8 +124,12 @@
     <div class="header-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <a href="{% if session.user_id %}{{ url_for('dashboard') }}{% else %}{{ url_for('home') }}{% endif %}" class="dazzlo-logo">
-                    <span>⚡ Dazzlo</span>
+                <a href="{% if session.user_id %}{{ url_for('dashboard') }}{% else %}{{ url_for('home') }}{% endif %}" class="dazzlo-logo d-flex align-items-center" style="gap: 12px;">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Dazzlo Logo" style="height: 72px; vertical-align: middle; margin-right: 8px;">
+                    <span style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <span style="font-size: 2rem; font-weight: 600; color: var(--dazzlo-primary); line-height: 1;">Dazzlo Go</span>
+                        <span style="font-size: 0.7rem; color: #888; margin-top: 2px; letter-spacing: 0.5px;">by DazzloVerse</span>
+                    </span>
                 </a>
                 <div class="nav-links">
                     {% if session.user_id %}
@@ -157,7 +177,7 @@
 
     <footer style="background: var(--dazzlo-primary); color: white; padding: 20px 0; margin-top: 40px;">
         <div class="container text-center">
-            <p>&copy; 2025 Dazzlo Technologies. All rights reserved.</p>
+            <p>&copy; 2025 DazzloVerse. All rights reserved.</p>
             <div style="margin-top: 10px;">
                 <a href="mailto:info@dazzlo.co.in" style="color: white; margin: 0 10px;">Contact</a>
                 <a href="tel:9373015503" style="color: white; margin: 0 10px;">+91 9373015503</a>
