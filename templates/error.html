@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Error {{ error_code }} - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <div class="mb-4">
+        {% if error_code == 404 %}
+            <i class="fas fa-search text-warning" style="font-size: 5rem;"></i>
+        {% elif error_code == 500 %}
+            <i class="fas fa-server text-danger" style="font-size: 5rem;"></i>
+        {% else %}
+            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 5rem;"></i>
+        {% endif %}
+    </div>
+    
+    <h1 class="page-title mb-3">Error {{ error_code }}</h1>
+    <h3 class="text-muted mb-4">{{ error_message }}</h3>
+    
+    <div class="row mb-5">
+        <div class="col-lg-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    {% if error_code == 404 %}
+                        <h5 class="card-title">Page Not Found</h5>
+                        <p class="card-text">The page you're looking for doesn't exist or has been moved.</p>
+                    {% elif error_code == 500 %}
+                        <h5 class="card-title">Internal Server Error</h5>
+                        <p class="card-text">We're experiencing technical difficulties. Please try again later.</p>
+                    {% else %}
+                        <h5 class="card-title">Unexpected Error</h5>
+                        <p class="card-text">An unexpected error occurred. Please try again or contact support.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row g-3 mb-5">
+        <div class="col-md-4 mx-auto">
+            <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg w-100">
+                <i class="fas fa-home me-2"></i>Home
+            </a>
+        </div>
+        <div class="col-md-4 mx-auto">
+            <a href="{{ url_for('bulk_mail') }}" class="btn btn-outline-primary btn-lg w-100">
+                <i class="fas fa-envelope me-2"></i>Send Emails
+            </a>
+        </div>
+    </div>
+    
+    {% if error_code == 500 %}
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-tools me-2"></i>Troubleshooting Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        Check your internet connection
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        Verify your Zoho credentials
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        Ensure uploaded files are in correct format
+                    </div>
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle text-primary me-2"></i>
+                        Try refreshing the page
+                    </div>
+                    <div class="text-center">
+                        <a href="mailto:info@dazzlo.co.in?subject=Technical Support Request&body=I encountered an error while using the Dazzlo email platform.%0D%0A%0D%0AError Code: {{ error_code }}%0D%0AError Message: {{ error_message }}%0D%0A%0D%0APlease assist." 
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-2"></i>Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

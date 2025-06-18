@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block title %}Upgrade Plan - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="page-header text-center">
+    <h1 class="page-title">
+        <i class="fas fa-arrow-up me-3"></i>
+        Upgrade Your Plan
+    </h1>
+    <p class="page-subtitle">
+        Scale your email marketing with higher limits and premium features
+    </p>
+</div>
+
+<!-- Current Plan -->
+<div class="row mb-5">
+    <div class="col-lg-6 mx-auto">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2"></i>Your Current Plan
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <h4 class="text-primary mb-3">{{ plans[current_plan].name }}</h4>
+                {% if plans[current_plan].price == 0 %}
+                    <div class="h3 text-success mb-3">Free</div>
+                {% else %}
+                    <div class="h3 text-primary mb-3">₹{{ '{:,}'.format(plans[current_plan].price) }}/month</div>
+                {% endif %}
+                <div class="mb-3">
+                    <span class="badge bg-light text-dark fs-6">
+                        {{ plans[current_plan].daily_limit }} emails/day
+                    </span>
+                </div>
+                <div class="mb-3">
+                    {% for feature in plans[current_plan].features %}
+                    <div class="mb-1">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <small>{{ feature }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Available Upgrades -->
+<div class="row g-4 mb-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-rocket me-2"></i>Available Upgrades
+        </h2>
+    </div>
+    
+    {% for plan_id, plan in plans.items() %}
+        {% if plan_id != current_plan %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 {% if plan_id == 'professional' %}border-primary{% endif %}">
+                {% if plan_id == 'professional' %}
+                <div class="card-header bg-primary text-white text-center">
+                    <i class="fas fa-star me-2"></i>Recommended
+                </div>
+                {% endif %}
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-4">
+                        {% if plan_id == 'basic' %}
+                            <i class="fas fa-paper-plane fa-3x text-primary"></i>
+                        {% elif plan_id == 'professional' %}
+                            <i class="fas fa-crown fa-3x text-warning"></i>
+                        {% elif plan_id == 'enterprise' %}
+                            <i class="fas fa-building fa-3x text-danger"></i>
+                        {% else %}
+                            <i class="fas fa-gift fa-3x text-success"></i>
+                        {% endif %}
+                    </div>
+                    
+                    <h5 class="card-title fw-bold mb-3">{{ plan.name }}</h5>
+                    
+                    <div class="mb-3">
+                        {% if plan.price == 0 %}
+                            <span class="h2 text-success">Free</span>
+                        {% else %}
+                            <span class="h2 text-primary">₹{{ '{:,}'.format(plan.price) }}</span>
+                            <span class="text-muted">/month</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <span class="badge bg-light text-dark fs-6">
+                            {{ plan.daily_limit }} emails/day
+                        </span>
+                    </div>
+                    
+                    {% if plan_id == 'free' %}
+                    <div class="alert alert-success fw-bold p-2 mb-2">
+                        <i class="fas fa-bolt me-1"></i>
+                        Free for all: 1000 mails per day, 24/7 customer support, customised templates, all advanced rich text editor, image insertion option, file attachment option, CSV creation option — <span class="text-success">free for all</span>.
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-4 flex-grow-1">
+                        {% for feature in plan.features %}
+                        <div class="mb-2 text-start">
+                            {% if plan_id == 'free' %}
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle text-danger me-2"></i>
+                            {% endif %}
+                            <span>{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mt-auto">
+                        {% if plan.price > 0 %}
+                        <button class="btn btn-primary w-100" onclick="showUPIModal('{{ plan_id }}', '{{ plan.name }}', '{{ plan.price }}')">
+                            <i class="fas fa-arrow-up me-2"></i>Upgrade to {{ plan.name }}
+                        </button>
+                        {% else %}
+                        <a href="mailto:info@dazzlo.co.in?subject=Plan Upgrade Request - {{ plan.name }}&body=Hello Dazzlo Team,%0D%0A%0D%0AI would like to upgrade my account to the {{ plan.name }} (₹{{ plan.price }}/month).%0D%0A%0D%0ACurrent Account: {{ user.email }}%0D%0ACurrent Plan: {{ plans[current_plan].name }}%0D%0A%0D%0APlease provide payment instructions and timeline for upgrade.%0D%0A%0D%0ABest regards" 
+                           class="btn btn-outline-primary w-100">
+                            <i class="fas fa-exchange-alt me-2"></i>Switch to {{ plan.name }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Feature Comparison -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-table me-2"></i>Complete Feature Comparison
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th class="text-center">Free</th>
+                                <th class="text-center">Basic</th>
+                                <th class="text-center">Professional</th>
+                                <th class="text-center">Enterprise</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="{% if current_plan == 'free' %}table-primary{% endif %}">
+                                <td><strong>Daily Email Limit</strong></td>
+                                <td class="text-center">15</td>
+                                <td class="text-center">200</td>
+                                <td class="text-center">500</td>
+                                <td class="text-center">1,000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Monthly Cost</strong></td>
+                                <td class="text-center text-success">Free</td>
+                                <td class="text-center">₹2,000</td>
+                                <td class="text-center">₹3,000</td>
+                                <td class="text-center">₹5,000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CSV Upload & Processing</strong></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Attachments (16MB)</strong></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rich Text Email Editor</strong></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Custom Email Templates</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Priority Support</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Advanced Personalization</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email Analytics</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>A/B Testing</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Custom CSS Support</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dedicated Support</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>API Access</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>White-label Solution</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Custom Integrations</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                            <tr>
+                                <td><strong>24/7 Phone Support</strong></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ROI Calculator -->
+<div class="row mb-5">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-calculator me-2"></i>ROI Calculator
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-center mb-4">
+                    See how upgrading your plan can increase your email marketing reach and potential ROI.
+                </p>
+                
+                <div class="row text-center">
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <div class="h4 text-primary">{{ plans[current_plan].daily_limit }}</div>
+                            <small>Current Daily Emails</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <div class="h4 text-success">{{ plans[current_plan].daily_limit * 30 }}</div>
+                            <small>Monthly Reach</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-primary text-white rounded">
+                            <div class="h4">1000</div>
+                            <small>Professional Plan Daily</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-primary text-white rounded">
+                            <div class="h4">30,000</div>
+                            <small>Professional Monthly</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="mb-3">
+                        <strong>With Professional Plan:</strong> Reach {{ 30000 - (plans[current_plan].daily_limit * 30) }} more customers monthly
+                    </p>
+                    <p class="text-muted">
+                        <em>Based on industry averages, this could translate to 
+                        {{ ((30000 - (plans[current_plan].daily_limit * 30)) * 0.02 * 50)|round|int }} additional leads per month.*</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Support Section -->
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-headset me-2"></i>Need Help Choosing?
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-4">
+                    Our team is here to help you select the perfect plan for your business needs.
+                </p>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a href="tel:9373015503" class="btn btn-primary w-100">
+                            <i class="fas fa-phone me-2"></i>
+                            Call Sales: +91 9373015503
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="mailto:info@dazzlo.co.in?subject=Plan Consultation Request&body=Hello Dazzlo Team,%0D%0A%0D%0AI would like to discuss which plan would be best for my business.%0D%0A%0D%0ACurrent Account: {{ user.email }}%0D%0ACurrent Plan: {{ plans[current_plan].name }}%0D%0A%0D%0APlease help me choose the right upgrade.%0D%0A%0D%0ABest regards" 
+                           class="btn btn-outline-primary w-100">
+                            <i class="fas fa-envelope me-2"></i>
+                            Email Consultation
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-clock me-1"></i>
+                        Business Hours: Monday-Friday, 9 AM - 6 PM IST
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- UPI Payment Modal -->
+<div class="modal fade" id="upiModal" tabindex="-1" aria-labelledby="upiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="upiModalLabel">UPI Payment for <span id="upiPlanName"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="mb-3">Scan the QR code or use the UPI link below to pay <strong>₹<span id="upiAmount"></span></strong> to <strong>9373015503</strong> (Dazzlo Technologies).</p>
+        <img id="upiQR" src="{{ url_for('static', filename='qr.png') }}" alt="UPI QR Code" style="max-width: 220px; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+        <div class="mb-3">
+          <a id="upiLink" href="#" class="btn btn-outline-primary" target="_blank">Pay via UPI App</a>
+        </div>
+        <div class="mb-3">
+          <input type="text" class="form-control" id="upiTxnId" placeholder="Enter UPI Transaction ID" autocomplete="off">
+        </div>
+        <div class="alert alert-info small">After payment, enter your UPI transaction ID and click the button below. Your upgrade will be reviewed by an admin.</div>
+        <button class="btn btn-success w-100" id="paymentDoneBtn">Payment Done - Request Upgrade</button>
+        <div id="upiStatus" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Highlight current plan in comparison table
+    const currentPlan = '{{ current_plan }}';
+    const planColumns = {
+        'free': 1,
+        'basic': 2, 
+        'professional': 3,
+        'enterprise': 4
+    };
+    
+    if (planColumns[currentPlan]) {
+        const columnIndex = planColumns[currentPlan];
+        const table = document.querySelector('.table-responsive table');
+        
+        if (table) {
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells[columnIndex]) {
+                    cells[columnIndex].classList.add('table-primary');
+                }
+            });
+        }
+    }
+});
+
+function showUPIModal(planId, planName, planAmount) {
+    var upiId = '9373015503@upi';
+    var upiUrl = `upi://pay?pa=${upiId}&pn=Dazzlo%20Technologies&am=${planAmount}&cu=INR`;
+    document.getElementById('upiPlanName').innerText = planName;
+    document.getElementById('upiAmount').innerText = planAmount;
+    document.getElementById('upiLink').href = upiUrl;
+    document.getElementById('upiTxnId').value = '';
+    document.getElementById('paymentDoneBtn').onclick = function() {
+        const txnId = document.getElementById('upiTxnId').value.trim();
+        if (!txnId) {
+            document.getElementById('upiStatus').innerHTML = '<div class="alert alert-danger">Please enter your UPI transaction ID.</div>';
+            return;
+        }
+        requestUpgrade(planId, txnId);
+    };
+    document.getElementById('upiStatus').innerHTML = '';
+    var modal = new bootstrap.Modal(document.getElementById('upiModal'));
+    modal.show();
+}
+
+function requestUpgrade(planId, txnId) {
+    document.getElementById('upiStatus').innerHTML = '<div class="text-info">Submitting your upgrade request...</div>';
+    fetch('/request-upgrade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan_id: planId, transaction_id: txnId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('upiStatus').innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+            setTimeout(() => { window.location.reload(); }, 2000);
+        } else {
+            document.getElementById('upiStatus').innerHTML = '<div class="alert alert-danger">' + data.message + '</div>';
+        }
+    })
+    .catch(() => {
+        document.getElementById('upiStatus').innerHTML = '<div class="alert alert-danger">Error submitting request. Please contact support.</div>';
+    });
+}
+</script>
+{% endblock %}

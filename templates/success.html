@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Campaign Successful - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <div class="mb-4">
+        <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+    </div>
+    
+    <h1 class="page-title text-success mb-3">
+        Campaign Sent Successfully!
+    </h1>
+    <p class="page-subtitle mb-5">
+        Your email campaign has been delivered to <strong>{{ count }}</strong> recipients through Dazzlo's professional email infrastructure.
+    </p>
+    
+    <!-- Campaign Statistics -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-envelope-open-text fa-3x text-primary mb-3"></i>
+                    <div class="h3 text-primary mb-2">{{ count }}</div>
+                    <div class="fw-bold">Emails Sent</div>
+                    <div class="text-muted small">Successfully delivered</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-3x text-info mb-3"></i>
+                    <div class="h3 text-info mb-2">{{ count }}</div>
+                    <div class="fw-bold">Minutes</div>
+                    <div class="text-muted small">Total processing time</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-double fa-3x text-success mb-3"></i>
+                    <div class="h3 text-success mb-2">99.9%</div>
+                    <div class="fw-bold">Delivery Rate</div>
+                    <div class="text-muted small">Industry leading</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-shield-check fa-3x text-warning mb-3"></i>
+                    <div class="h3 text-warning mb-2">100%</div>
+                    <div class="fw-bold">Secure</div>
+                    <div class="text-muted small">Encrypted delivery</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delivery Information -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <i class="fas fa-rocket fa-3x text-primary"></i>
+                        </div>
+                        <div class="col-md-10">
+                            <h5 class="card-title mb-3">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Mission Accomplished!
+                            </h5>
+                            <p class="card-text mb-3">
+                                Your email campaign has been successfully processed and delivered through Dazzlo's enterprise SMTP infrastructure. 
+                                All recipients should receive their emails within the next 5-10 minutes.
+                            </p>
+                            <div class="row text-center">
+                                <div class="col-md-3 mb-2">
+                                    <div class="p-2 bg-light rounded">
+                                        <i class="fas fa-check-circle text-success"></i>
+                                        <small class="d-block">Campaign validated</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <div class="p-2 bg-light rounded">
+                                        <i class="fas fa-check-circle text-success"></i>
+                                        <small class="d-block">SMTP delivery initiated</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <div class="p-2 bg-light rounded">
+                                        <i class="fas fa-check-circle text-success"></i>
+                                        <small class="d-block">{{ count }} emails sent</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <div class="p-2 bg-primary text-white rounded">
+                                        <i class="fas fa-clock"></i>
+                                        <small class="d-block">Recipients receiving</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="row g-3 mb-5">
+        <div class="col-lg-4 col-md-6 mx-auto">
+            <a href="{{ url_for('bulk_mail') }}" class="btn btn-primary btn-lg w-100">
+                <i class="fas fa-plus me-2"></i>
+                Send Another Campaign
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 mx-auto">
+            <a href="{{ url_for('home') }}" class="btn btn-outline-primary btn-lg w-100">
+                <i class="fas fa-home me-2"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+    
+    <!-- Professional Tips -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Professional Email Marketing Tips
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-chart-line me-2"></i>Performance Optimization
+                            </h6>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Monitor open rates and click-through rates</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>A/B test different subject lines</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Send at optimal times for your audience</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Segment your email lists for better targeting</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-primary mb-3">
+                                <i class="fas fa-shield-alt me-2"></i>Deliverability Best Practices
+                            </h6>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Maintain clean, up-to-date email lists</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Use professional, branded email content</span>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Respect unsubscribe requests immediately</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span>Avoid spam trigger words and phrases</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Template CTA -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-palette me-2 text-primary"></i>
+                        Upgrade to Custom Email Templates
+                    </h4>
+                    <p class="mb-4">
+                        Take your email campaigns to the next level with professionally designed, responsive HTML templates 
+                        that perfectly match your brand identity and boost engagement rates.
+                    </p>
+                    <div class="mb-4">
+                        <span class="badge bg-light text-dark me-2 mb-2">
+                            <i class="fas fa-mobile-alt me-1"></i>Mobile Responsive
+                        </span>
+                        <span class="badge bg-light text-dark me-2 mb-2">
+                            <i class="fas fa-paint-brush me-1"></i>Brand Aligned
+                        </span>
+                        <span class="badge bg-light text-dark me-2 mb-2">
+                            <i class="fas fa-chart-line me-1"></i>Conversion Optimized
+                        </span>
+                        <span class="badge bg-light text-dark me-2 mb-2">
+                            <i class="fas fa-code me-1"></i>Custom HTML/CSS
+                        </span>
+                    </div>
+                    <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Design Request - Post Campaign&body=Hello Dazzlo Team,%0D%0A%0D%0AI just completed a successful email campaign with {{ count }} recipients and I'm interested in upgrading to custom email templates.%0D%0A%0D%0APlease provide information about your custom template design services and pricing.%0D%0A%0D%0ABest regards" 
+                       class="btn btn-primary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>
+                        Request Custom Templates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Support -->
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h6 class="mb-0">
+                        <i class="fas fa-headset me-2"></i>Need Support or Have Questions?
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3">
+                                <i class="fas fa-phone fa-2x text-primary mb-2"></i>
+                                <h6 class="fw-bold">Phone Support</h6>
+                                <a href="tel:9373015503" class="text-decoration-none">
+                                    <strong>+91 9373015503</strong>
+                                </a>
+                                <div class="text-muted small">Business Hours: 9 AM - 6 PM IST</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3">
+                                <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                                <h6 class="fw-bold">Email Support</h6>
+                                <a href="mailto:info@dazzlo.co.in" class="text-decoration-none">
+                                    <strong>info@dazzlo.co.in</strong>
+                                </a>
+                                <div class="text-muted small">24/7 email support available</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3 pt-3 border-top">
+                        <p class="mb-0">
+                            <i class="fas fa-heart text-danger me-1"></i>
+                            <strong>Thank you for choosing Dazzlo!</strong>
+                        </p>
+                        <small class="text-muted">
+                            We're here to help you succeed with your email marketing campaigns.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+2025-06-17 15:40:14,070 - dazzlego - WARNING -   smtp_port: ['Not a valid integer value.']
+2025-06-17 15:44:57,053 - dazzlego - INFO - Parsing CSV file: uploads\csv_2_1750155297_email_list.csv
+2025-06-17 15:44:57,082 - dazzlego - INFO - Detected CSV delimiter: ','
+2025-06-17 15:44:57,083 - dazzlego - INFO - CSV columns: ['email', 'name'] -> ['email', 'name']
+2025-06-17 15:44:57,084 - dazzlego - INFO - Successfully parsed 1 recipients from 1 rows
+2025-06-17 16:07:26,276 - dazzlego - INFO - Parsing CSV file: uploads\csv_2_1750156646_email_list.csv
+2025-06-17 16:07:26,283 - dazzlego - INFO - Detected CSV delimiter: ','
+2025-06-17 16:07:26,286 - dazzlego - INFO - CSV columns: ['email', 'name'] -> ['email', 'name']
+2025-06-17 16:07:26,287 - dazzlego - INFO - Successfully parsed 1 recipients from 1 rows

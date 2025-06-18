@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}Dazzlo Business Email Platform - Professional Bulk Email Solutions{% endblock %}
+
+{% block content %}
+<style>
+.free-for-all-banner {
+    background: #d1f5d3;
+    color: #176b2c;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 18px;
+    font-size: 1.1rem;
+    display: block;
+    text-align: left;
+}
+</style>
+
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-envelope-open-text me-3"></i>
+        Business Email Platform
+    </h1>
+    <p class="page-subtitle">
+        Transform your email marketing with Dazzlo's professional bulk email solution. 
+        Send personalized, branded emails to thousands of recipients with enterprise-grade reliability and security.
+    </p>
+    
+    <div class="text-center mt-4">
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket me-2"></i>
+                Get Started Free
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Sign In
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Pricing Plans -->
+<div class="row g-4 mb-5 flex-wrap justify-content-center">
+    <div class="col-12">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-tags me-2"></i>Choose Your Plan
+        </h2>
+    </div>
+    
+    {% for plan_id, plan in plans.items() %}
+        {% if plan_id == 'free' %}
+        <div class="col-lg-5 col-md-8 mb-3 d-flex align-items-stretch">
+            <div class="card h-100 w-100">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-4">
+                        <i class="fas fa-gift fa-3x text-success"></i>
+                    </div>
+                    <h5 class="card-title fw-bold mb-3">{{ plan.name }}</h5>
+                    <div class="mb-3">
+                        <span class="h2 text-success">Free</span>
+                    </div>
+                    <div class="mb-4 flex-grow-1">
+                        <div class="free-for-all-banner">
+                            <i class="fas fa-bolt me-1"></i>
+                            Free for all: 1000 mails per day, 24/7 customer support, customised templates, all advanced rich text editor, image insertion option, file attachment option, CSV creation option — <span style="color:#1ca64c;">free for all</span>.
+                            <ul style="margin-top: 12px; margin-bottom: 0; padding-left: 1.5em;">
+                                {% for feature in plan.features %}
+                                    <li style="margin-bottom: 6px; color: #176b2c; font-weight: normal; list-style: disc;">{{ feature }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="{{ url_for('signup') }}?plan={{ plan_id }}" class="btn btn-outline-primary w-100">
+                            Start Free
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 mb-5 flex-wrap">
+    <div class="col-lg-4 col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-upload fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">Smart CSV Import</h5>
+                <p class="card-text mb-4">
+                    Upload your contact lists with our intelligent CSV parser. Supports multiple formats and automatically validates email addresses for optimal delivery rates.
+                </p>
+                <div class="mt-auto">
+                    <span class="badge bg-light text-dark me-2">99.9% Accuracy</span>
+                    <span class="badge bg-light text-dark">Auto-Validation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-palette fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">Custom Email Templates</h5>
+                <p class="card-text mb-4">
+                    Design stunning, responsive email templates with our professional team. Get custom HTML/CSS templates that reflect your brand identity.
+                </p>
+                <div class="mt-auto">
+                    <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Request" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-paint-brush me-2"></i>Request Template
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-shield-check fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title fw-bold mb-3">Enterprise Security</h5>
+                <p class="card-text mb-4">
+                    Bank-level security with encrypted SMTP connections, secure authentication, and compliance with international email regulations.
+                </p>
+                <div class="mt-auto">
+                    <span class="badge bg-light text-dark me-2">SSL Encrypted</span>
+                    <span class="badge bg-light text-dark">GDPR Compliant</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Start Guide -->
+<div class="row mb-5 flex-wrap">
+    <div class="col-lg-8 mx-auto mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-rocket me-2"></i>Quick Start Guide
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-primary mb-3">CSV Format Required:</h6>
+                        <pre class="bg-dark text-light p-3 rounded small"><code>email,name,company
+john@company.com,John Doe,ABC Corp
+jane@company.com,Jane Smith,XYZ Ltd</code></pre>
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Names from CSV will be used for personalization
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-primary mb-3">Platform Features:</h6>
+                        <div class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Smart personalization with CSV names</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>File attachments up to 16MB</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Real-time delivery tracking</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Professional SMTP infrastructure</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>Rich HTML email editor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Stats -->
+<div class="row mb-5 flex-wrap">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Platform Performance & Capabilities
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="p-3">
+                            <div class="h3 text-primary mb-2">10,000+</div>
+                            <div class="fw-bold">Emails per batch</div>
+                            <div class="text-muted small">Send large campaigns efficiently</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="p-3">
+                            <div class="h3 text-success mb-2">99.5%</div>
+                            <div class="fw-bold">Delivery rate</div>
+                            <div class="text-muted small">Industry-leading deliverability</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="p-3">
+                            <div class="h3 text-info mb-2">&lt; 2 sec</div>
+                            <div class="fw-bold">Per email</div>
+                            <div class="text-muted small">Optimized sending speed</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="p-3">
+                            <div class="h3 text-warning mb-2">24/7</div>
+                            <div class="fw-bold">Support</div>
+                            <div class="text-muted small">Expert assistance available</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="text-center mb-5">
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">
+            <i class="fas fa-rocket me-2"></i>
+            Start Your Free Account
+        </a>
+        <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Inquiry" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-palette me-2"></i>
+            Custom Templates
+        </a>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-headset me-2"></i>Need Help? Contact Our Team
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-phone fa-2x text-primary mb-2"></i>
+                            <h6 class="fw-bold">Phone Support</h6>
+                            <a href="tel:9373015503" class="text-decoration-none">
+                                <strong>+91 9373015503</strong>
+                            </a>
+                            <div class="text-muted small">Mon-Fri, 9 AM - 6 PM IST</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3">
+                            <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                            <h6 class="fw-bold">Email Support</h6>
+                            <a href="mailto:info@dazzlo.co.in" class="text-decoration-none">
+                                <strong>info@dazzlo.co.in</strong>
+                            </a>
+                            <div class="text-muted small">24/7 email support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

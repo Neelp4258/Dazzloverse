@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Complete Payment - Dazzlo{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">Complete Payment for {{ plan.name }}</h4>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-3">To activate your <strong>{{ plan.name }}</strong>, please pay <strong>₹{{ '{:,}'.format(plan.price) }}</strong> to <strong>9373015503</strong> (Dazzlo Technologies) via UPI.</p>
+                <img src="{{ url_for('static', filename='qr.png') }}" alt="UPI QR Code" style="max-width: 220px; margin-bottom: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+                <div class="mb-3">
+                    <a href="upi://pay?pa=9373015503@upi&pn=Dazzlo%20Technologies&am={{ plan.price }}&cu=INR" class="btn btn-outline-primary" target="_blank">Pay via UPI App</a>
+                </div>
+                <form method="POST">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="transaction_id" placeholder="Enter UPI Transaction ID" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Submit Payment & Request Upgrade</button>
+                </form>
+                <div class="alert alert-info mt-3 small">After payment, enter your UPI transaction ID above. Your upgrade will be reviewed by an admin.</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

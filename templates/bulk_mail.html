@@ -1,0 +1,1041 @@
+{% extends "base.html" %}
+
+{% block title %}Send Bulk Emails - Dazzlo Business Email Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-paper-plane me-3"></i>
+        Send Bulk Emails
+    </h1>
+    <p class="page-subtitle">
+        Configure your email campaign settings and send professional emails with our rich text editor.
+    </p>
+</div>
+
+<form method="POST" enctype="multipart/form-data" id="bulkMailForm">
+    {{ form.hidden_tag() }}
+    
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <!-- SMTP Configuration -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-server me-2"></i>SMTP Configuration
+                        <span id="credentialStatus" style="display: none;" class="ms-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <small class="text-success">Verified</small>
+                        </span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="smtp-provider" class="form-label">SMTP Provider</label>
+                                {{ form.smtp_provider(id="smtp-provider", class="form-select") }}
+                                <small class="form-text text-muted">Choose your email provider or select Custom SMTP</small>
+                            </div>
+                            <div class="mb-3">
+                                {{ form.email.label(class="form-label") }}
+                                {{ form.email(class="form-control", id="zoho-email", placeholder="your-email@zoho.com") }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">
+                                    Use your business email address (Zoho, Gmail, or custom domain)
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                {{ form.password.label(class="form-label") }}
+                                {{ form.password(class="form-control", id="zoho-password", placeholder="App password") }}
+                                {% if form.password.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.password.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>Use app password, not regular password
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 custom-smtp-fields" style="display:none;">
+                            <div class="mb-3">
+                                <label for="smtp-server" class="form-label">SMTP Server</label>
+                                {{ form.smtp_server(id="smtp-server", class="form-control", placeholder="smtp.yourdomain.com") }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="smtp-port" class="form-label">SMTP Port</label>
+                                {{ form.smtp_port(id="smtp-port", class="form-control", placeholder="587") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-outline-primary" id="validateCredentials">
+                            <i class="fas fa-shield-check me-2"></i>
+                            <span class="btn-text">Validate SMTP Settings</span>
+                            <span class="loading-spinner spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Content -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Email Content Designer
+                        <span class="badge bg-primary ms-2">Rich Text Editor</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        {{ form.subject.label(class="form-label") }}
+                        {{ form.subject(class="form-control form-control-lg", placeholder="Enter compelling email subject line...") }}
+                        {% if form.subject.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.subject.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.body.label(class="form-label") }}
+                        
+                        <!-- Rich Text Editor Toolbar -->
+                        <div class="editor-toolbar bg-light border rounded-top p-3">
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('bold')" title="Bold">
+                                        <i class="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('italic')" title="Italic">
+                                        <i class="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('underline')" title="Underline">
+                                        <i class="fas fa-underline"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertUnorderedList')" title="Bullet List">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('insertOrderedList')" title="Numbered List">
+                                        <i class="fas fa-list-ol"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyLeft')" title="Align Left">
+                                        <i class="fas fa-align-left"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyCenter')" title="Align Center">
+                                        <i class="fas fa-align-center"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('justifyRight')" title="Align Right">
+                                        <i class="fas fa-align-right"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <select class="form-select form-select-sm" onchange="changeFontSize(this.value)" style="width: auto;">
+                                        <option value="">Font Size</option>
+                                        <option value="1">Small</option>
+                                        <option value="3">Normal</option>
+                                        <option value="5">Large</option>
+                                        <option value="7">Extra Large</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <input type="color" class="form-control form-control-sm" onchange="changeTextColor(this.value)" title="Text Color" style="width: 50px; height: 31px;">
+                                </div>
+                                
+                                <div class="btn-group me-2 mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="insertLink()" title="Insert Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <!-- Image Insert Button -->
+                                    <button type="button" class="btn btn-outline-success btn-sm" onclick="insertImage()" title="Insert Image">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="formatText('removeFormat')" title="Clear Formatting">
+                                        <i class="fas fa-eraser"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="btn-group mb-2" role="group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('name')" title="Insert Name">
+                                        {name}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('email')" title="Insert Email">
+                                        {email}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="insertPersonalization('company')" title="Insert Company">
+                                        {company}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rich Text Editor -->
+                        <div class="editor-container">
+                            <div id="emailEditor" class="form-control" style="min-height: 300px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0;" contenteditable="true">
+                                <p>Dear {name},</p>
+                                <p><br></p>
+                                <p>Write your professional email message here...</p>
+                                <p><br></p>
+                                <p>Best regards,<br>Your Team</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden textarea to store the content -->
+                        {{ form.body(style="display: none;", id="hiddenBodyField") }}
+                        
+                        <!-- Hidden file input for image uploads -->
+                        <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
+                        
+                        {% if form.body.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.body.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-text mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-magic me-1"></i>Personalization tokens:</strong>
+                                    <div class="mt-1">
+                                        <code class="me-2">{name}</code>
+                                        <code class="me-2">{email}</code>
+                                        <code>{company}</code>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong><i class="fas fa-image me-1"></i>Image Support:</strong>
+                                    <div class="mt-1">
+                                        <small class="text-muted">Click the <i class="fas fa-image"></i> button to insert business cards, logos, and other images</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Preview -->
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-outline-info" onclick="togglePreview()">
+                            <i class="fas fa-eye me-2"></i>Preview Email
+                        </button>
+                        
+                        <div id="emailPreview" class="mt-3" style="display: none;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>Email Preview
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="preview-email">
+                                        <div class="email-header mb-3 pb-2 border-bottom">
+                                            <strong>Subject:</strong> <span id="previewSubject" class="text-primary"></span>
+                                        </div>
+                                        <div class="email-body" id="previewBody">
+                                            <!-- Preview content will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File Uploads -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>File Management
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.email_list.label(class="form-label") }}
+                                {{ form.email_list(class="form-control") }}
+                                {% if form.email_list.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {% for error in form.email_list.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">CSV format: email,name,company</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.document.label(class="form-label") }}
+                                {{ form.document(class="form-control") }}
+                                {% if form.document.errors %}
+                                    <div class="text-danger small mt-2">
+                                        {% for error in form.document.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">Optional attachment (Max 16MB)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mt-2">
+                        <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#csvNotepadModal">
+                            <i class="fas fa-sticky-note me-1"></i> Quick CSV Notepad
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Campaign Summary
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Status:</span>
+                        <span class="badge bg-secondary" id="campaignStatus">Not Ready</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" disabled>
+                            <i class="fas fa-rocket me-2"></i>
+                            <span class="btn-text">Launch Campaign</span>
+                            <span class="loading-spinner spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                        </button>
+                        
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-shield-check me-1"></i>
+                            Secure & compliant email delivery
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Templates -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-templates me-2"></i>Quick Templates
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('professional')">
+                            <i class="fas fa-briefcase me-2"></i>Professional
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('newsletter')">
+                            <i class="fas fa-newspaper me-2"></i>Newsletter
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('announcement')">
+                            <i class="fas fa-bullhorn me-2"></i>Announcement
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadTemplate('invitation')">
+                            <i class="fas fa-calendar me-2"></i>Invitation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help & Support -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-headset me-2"></i>Need Help?
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <div>
+                                <small class="text-muted d-block">Phone Support</small>
+                                <a href="tel:9373015503" class="text-decoration-none fw-bold">
+                                    +91 9373015503
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <div>
+                                <small class="text-muted d-block">Email Support</small>
+                                <a href="mailto:info@dazzlo.co.in" class="text-decoration-none fw-bold">
+                                    info@dazzlo.co.in
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <a href="mailto:info@dazzlo.co.in?subject=Custom Email Template Request" 
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-palette me-2"></i>Request Custom Templates
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- CSV Notepad Modal -->
+<div class="modal fade" id="csvNotepadModal" tabindex="-1" aria-labelledby="csvNotepadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="csvNotepadModalLabel"><i class="fas fa-sticky-note me-2"></i>Quick CSV Notepad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea id="csvNotepadTextarea" class="form-control" rows="10" style="font-family:monospace;resize:vertical;">email,name,company
+john@example.com,John Doe,ABC Corp
+jane@company.com,Jane Smith,XYZ Ltd
+mike@startup.io,Mike Johnson,Tech Inc</textarea>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button type="button" class="btn btn-outline-success btn-sm" onclick="downloadCsvNotepad()"><i class="fas fa-download me-1"></i>Download CSV</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="useCsvNotepad()"><i class="fas fa-upload me-1"></i>Use This CSV</button>
+        </div>
+        <div class="form-text mt-2">Tip: Edit the CSV data above, then download or use directly. Each row should have: email,name,company</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Resize Modal -->
+<div class="modal fade" id="imageResizeModal" tabindex="-1" aria-labelledby="imageResizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageResizeModalLabel">
+          <i class="fas fa-expand-arrows-alt me-2"></i>Adjust Image Size
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <img id="previewImageModal" src="" alt="Image Preview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="imageWidth" class="form-label">Width (px)</label>
+            <input type="number" class="form-control" id="imageWidth" min="50" max="800" value="300">
+          </div>
+          <div class="col-md-6">
+            <label for="imageHeight" class="form-label">Height (px)</label>
+            <input type="number" class="form-control" id="imageHeight" min="50" max="600" value="200">
+          </div>
+        </div>
+        
+        <div class="mt-3">
+          <label class="form-label">Quick Sizes</label>
+          <div class="btn-group d-flex" role="group">
+            <button type="button" class="btn btn-outline-secondary" onclick="setImageSize(150, 100)">Small</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="setImageSize(300, 200)">Medium</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="setImageSize(500, 300)">Large</button>
+          </div>
+        </div>
+        
+        <div class="mt-3">
+          <label for="imageAlignment" class="form-label">Alignment</label>
+          <select class="form-select" id="imageAlignment">
+            <option value="left">Left</option>
+            <option value="center" selected>Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="insertResizedImage()">
+          <i class="fas fa-check me-2"></i>Insert Image
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+#emailEditor {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-y: auto;
+}
+
+#emailEditor:focus {
+    outline: none;
+    border-color: var(--dazzlo-accent);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.editor-toolbar {
+    border-bottom: none;
+}
+
+.editor-toolbar .btn {
+    margin-right: 2px;
+}
+
+.preview-email {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.email-header {
+    font-size: 14px;
+}
+
+.email-body {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.email-body p {
+    margin-bottom: 1rem;
+}
+
+.email-body ul, .email-body ol {
+    margin-left: 20px;
+    margin-bottom: 1rem;
+}
+
+/* Image styles in editor */
+#emailEditor img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+#emailEditor img:hover {
+    border-color: #3498db;
+}
+</style>
+
+<script>
+// Global variables for image handling
+let currentImageElement = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = document.getElementById('emailEditor');
+    const hiddenField = document.getElementById('hiddenBodyField');
+    const validateBtn = document.getElementById('validateCredentials');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusElement = document.getElementById('campaignStatus');
+    const credentialStatus = document.getElementById('credentialStatus');
+    
+    // FIXED: Improved content syncing to preserve HTML
+    function syncEditorContent() {
+        let htmlContent = editor.innerHTML;
+        
+        // Clean up contenteditable artifacts
+        htmlContent = htmlContent
+            .replace(/<div><br><\/div>/g, '<p><br></p>')
+            .replace(/<div>/g, '<p>')
+            .replace(/<\/div>/g, '</p>')
+            .replace(/<br><br>/g, '<br>')
+            .trim();
+        
+        hiddenField.value = htmlContent;
+        updateCampaignStatus();
+    }
+    
+    // Update campaign status
+    function updateCampaignStatus() {
+        const email = document.getElementById('zoho-email').value;
+        const password = document.getElementById('zoho-password').value;
+        const subject = document.querySelector('input[name="subject"]').value;
+        const body = editor.innerHTML.trim();
+        const csvFile = document.querySelector('input[name="email_list"]').files[0];
+        const hasCredentials = credentialStatus.style.display !== 'none';
+        
+        if (hasCredentials && csvFile && subject && body && body !== '<p><br></p>') {
+            statusElement.textContent = 'Ready to Send';
+            statusElement.className = 'badge bg-success';
+            submitBtn.disabled = false;
+        } else {
+            statusElement.textContent = 'Configuration Incomplete';
+            statusElement.className = 'badge bg-warning';
+            submitBtn.disabled = true;
+        }
+    }
+    
+    // Rich text editor event listeners
+    editor.addEventListener('input', function() {
+        setTimeout(syncEditorContent, 100);
+    });
+    
+    editor.addEventListener('paste', function(e) {
+        setTimeout(function() {
+            syncEditorContent();
+        }, 200);
+    });
+    
+    editor.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
+            setTimeout(syncEditorContent, 50);
+        }
+    });
+    
+    // Load initial content if exists
+    if (hiddenField.value && hiddenField.value.trim() !== '') {
+        editor.innerHTML = hiddenField.value;
+    }
+    
+    // FIXED: Validate credentials with proper error handling
+    validateBtn.addEventListener('click', function() {
+        const email = document.getElementById('zoho-email').value;
+        const password = document.getElementById('zoho-password').value;
+        const provider = document.getElementById('smtp-provider').value;
+        let smtpServer = '';
+        let smtpPort = '';
+        
+        if (provider === 'custom') {
+            smtpServer = document.getElementById('smtp-server').value;
+            smtpPort = document.getElementById('smtp-port').value;
+        }
+        
+        if (!email || !password) {
+            showNotification('Please enter both email and password', 'error');
+            return;
+        }
+        
+        if (provider === 'custom' && (!smtpServer || !smtpPort)) {
+            showNotification('Please enter custom SMTP server and port', 'error');
+            return;
+        }
+        
+        // Show loading state
+        this.disabled = true;
+        const btnText = this.querySelector('.btn-text');
+        const spinner = this.querySelector('.loading-spinner');
+        btnText.textContent = 'Validating...';
+        spinner.style.display = 'inline-block';
+        
+        fetch('/api/validate-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email: email, 
+                password: password, 
+                smtp_server: smtpServer || null, 
+                smtp_port: smtpPort || null 
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                credentialStatus.style.display = 'inline-block';
+                showNotification('SMTP credentials validated successfully!', 'success');
+                updateCampaignStatus();
+            } else {
+                showNotification('Validation failed: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Connection error occurred', 'error');
+        })
+        .finally(() => {
+            this.disabled = false;
+            btnText.textContent = 'Validate SMTP Settings';
+            spinner.style.display = 'none';
+        });
+    });
+    
+    // FIXED: Form submission with proper validation
+    document.getElementById('bulkMailForm').addEventListener('submit', function(e) {
+        // Force sync content before submission
+        syncEditorContent();
+        
+        const csvFile = document.querySelector('input[name="email_list"]').files[0];
+        const hasCredentials = credentialStatus.style.display !== 'none';
+        const bodyContent = hiddenField.value.trim();
+        const subject = document.querySelector('input[name="subject"]').value.trim();
+        
+        if (!csvFile) {
+            e.preventDefault();
+            showNotification('Please upload a CSV file with email addresses', 'error');
+            return;
+        }
+        
+        if (!hasCredentials) {
+            e.preventDefault();
+            showNotification('Please validate your SMTP credentials first', 'error');
+            return;
+        }
+        
+        if (!subject) {
+            e.preventDefault();
+            showNotification('Please enter an email subject', 'error');
+            return;
+        }
+        
+        if (!bodyContent || bodyContent === '<p><br></p>' || bodyContent === '<br>' || bodyContent === '') {
+            e.preventDefault();
+            showNotification('Please enter email content', 'error');
+            return;
+        }
+        
+        if (!confirm('Are you sure you want to launch this email campaign? This action cannot be undone.')) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        const btnText = submitBtn.querySelector('.btn-text');
+        const spinner = submitBtn.querySelector('.loading-spinner');
+        btnText.textContent = 'Launching Campaign...';
+        spinner.style.display = 'inline-block';
+    });
+    
+    // Update status on form changes
+    ['input', 'change'].forEach(event => {
+        document.addEventListener(event, updateCampaignStatus);
+    });
+    
+    // SMTP provider change handler
+    const providerSelect = document.getElementById('smtp-provider');
+    const customFields = document.querySelector('.custom-smtp-fields');
+    
+    function toggleCustomFields() {
+        if (providerSelect.value === 'custom') {
+            customFields.style.display = 'block';
+        } else {
+            customFields.style.display = 'none';
+        }
+    }
+    
+    providerSelect.addEventListener('change', toggleCustomFields);
+    toggleCustomFields();
+    
+    // Initial status update
+    updateCampaignStatus();
+});
+
+// Rich text formatting functions
+function formatText(command, value = null) {
+    document.execCommand(command, false, value);
+    document.getElementById('emailEditor').focus();
+    setTimeout(function() {
+        document.getElementById('emailEditor').dispatchEvent(new Event('input'));
+    }, 50);
+}
+
+function changeFontSize(size) {
+    if (size) {
+        formatText('fontSize', size);
+    }
+}
+
+function changeTextColor(color) {
+    formatText('foreColor', color);
+}
+
+function insertLink() {
+    const url = prompt('Enter the URL:');
+    if (url) {
+        formatText('createLink', url);
+    }
+}
+
+// Image insertion functionality
+function insertImage() {
+    document.getElementById('imageUpload').click();
+}
+
+function handleImageUpload(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        handleImageFile(file);
+        input.value = ''; // Clear input for reuse
+    }
+}
+
+function handleImageFile(file) {
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+        showNotification('Please select a valid image file (JPEG, PNG, GIF, WebP)', 'error');
+        return;
+    }
+    
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+        showNotification('Image file size must be less than 5MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            // Set default size (max width 300px, maintain aspect ratio)
+            let displayWidth = Math.min(this.width, 300);
+            let displayHeight = (displayWidth / this.width) * this.height;
+            
+            // Show image resize modal
+            const modal = new bootstrap.Modal(document.getElementById('imageResizeModal'));
+            document.getElementById('previewImageModal').src = e.target.result;
+            document.getElementById('imageWidth').value = Math.round(displayWidth);
+            document.getElementById('imageHeight').value = Math.round(displayHeight);
+            
+            // Store the image data for later use
+            currentImageElement = {
+                src: e.target.result,
+                originalWidth: this.width,
+                originalHeight: this.height
+            };
+            
+            modal.show();
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function setImageSize(width, height) {
+    document.getElementById('imageWidth').value = width;
+    document.getElementById('imageHeight').value = height;
+}
+
+function insertResizedImage() {
+    const width = parseInt(document.getElementById('imageWidth').value);
+    const height = parseInt(document.getElementById('imageHeight').value);
+    const alignment = document.getElementById('imageAlignment').value;
+    
+    if (!currentImageElement) {
+        showNotification('No image selected', 'error');
+        return;
+    }
+    
+    // Create image HTML with inline styles for email compatibility
+    let alignStyle = '';
+    switch(alignment) {
+        case 'center':
+            alignStyle = 'display: block; margin: 10px auto;';
+            break;
+        case 'right':
+            alignStyle = 'float: right; margin: 10px 0 10px 15px;';
+            break;
+        default: // left
+            alignStyle = 'float: left; margin: 10px 15px 10px 0;';
+    }
+    
+    // Create the image element
+    const img = document.createElement('img');
+    img.src = currentImageElement.src;
+    img.style.cssText = `width: ${width}px; height: ${height}px; ${alignStyle} border-radius: 4px; max-width: 100%;`;
+    img.alt = 'Inserted Image';
+    
+    // Insert image at cursor position
+    const editor = document.getElementById('emailEditor');
+    editor.focus();
+    
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(img);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    } else {
+        editor.appendChild(img);
+    }
+    
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('imageResizeModal'));
+    modal.hide();
+    
+    // Sync content
+    setTimeout(function() {
+        document.getElementById('emailEditor').dispatchEvent(new Event('input'));
+    }, 200);
+    
+    showNotification('Image inserted successfully!', 'success');
+}
+
+function insertPersonalization(type) {
+    const editor = document.getElementById('emailEditor');
+    const selection = window.getSelection();
+    
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode('{' + type + '}'));
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    } else {
+        editor.focus();
+        formatText('insertText', '{' + type + '}');
+    }
+    
+    setTimeout(function() {
+        document.getElementById('emailEditor').dispatchEvent(new Event('input'));
+    }, 100);
+}
+
+function togglePreview() {
+    const preview = document.getElementById('emailPreview');
+    const subject = document.querySelector('input[name="subject"]').value;
+    const body = document.getElementById('emailEditor').innerHTML;
+    
+    if (preview.style.display === 'none') {
+        preview.style.display = 'block';
+        
+        // Update preview content
+        document.getElementById('previewSubject').textContent = subject || '[No Subject]';
+        
+        // Replace personalization tokens for preview
+        let previewBody = body
+            .replace(/{name}/g, '<strong style="color: #667eea; background: #fff3cd; padding: 2px 4px; border-radius: 3px;">John Doe</strong>')
+            .replace(/{email}/g, '<strong style="color: #667eea; background: #d4edda; padding: 2px 4px; border-radius: 3px;">john@example.com</strong>')
+            .replace(/{company}/g, '<strong style="color: #667eea; background: #cce5ff; padding: 2px 4px; border-radius: 3px;">Example Corp</strong>');
+        
+        document.getElementById('previewBody').innerHTML = previewBody;
+        event.target.innerHTML = '<i class="fas fa-eye-slash me-2"></i>Hide Preview';
+    } else {
+        preview.style.display = 'none';
+        event.target.innerHTML = '<i class="fas fa-eye me-2"></i>Preview Email';
+    }
+}
+
+// Email templates
+function loadTemplate(templateType) {
+    const editor = document.getElementById('emailEditor');
+    const subjectField = document.querySelector('input[name="subject"]');
+    let content = '';
+    let subject = '';
+    
+    switch(templateType) {
+        case 'professional':
+            subject = 'Professional Business Communication';
+            content = '<p>Dear {name},</p><p><br></p><p>I hope this email finds you well. I am writing to inform you about an important update regarding our services.</p><p><br></p><p><strong>Key highlights:</strong></p><ul><li>Enhanced security features</li><li>Improved user experience</li><li>24/7 customer support</li></ul><p><br></p><p>Should you have any questions, please don\'t hesitate to reach out to our team.</p><p><br></p><p>Best regards,<br><strong>The Dazzlo Team</strong><br>info@dazzlo.co.in</p>';
+            break;
+            
+        case 'newsletter':
+            subject = 'Monthly Newsletter - {company}';
+            content = '<h2 style="color: #2c3e50;">Monthly Newsletter</h2><p>Hello {name},</p><p><br></p><p>Welcome to our monthly newsletter! Here\'s what\'s new:</p><p><br></p><h3 style="color: #3498db;">This Month\'s Highlights</h3><ol><li><strong>Product Updates:</strong> New features and improvements</li><li><strong>Industry News:</strong> Latest trends and insights</li><li><strong>Customer Spotlight:</strong> Success stories from our community</li></ol><p><br></p><p><em>Thank you for being part of our community!</em></p><p><br></p><p>Warm regards,<br>The Newsletter Team</p>';
+            break;
+            
+        case 'announcement':
+            subject = '🎉 Important Announcement from Dazzlo';
+            content = '<div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #3498db; margin-bottom: 20px;"><h2 style="color: #2c3e50; margin-top: 0;">🎉 Important Announcement</h2></div><p>Dear {name},</p><p><br></p><p>We\'re excited to share some <strong>important news</strong> with you!</p><p><br></p><p style="font-size: 16px; background: #e8f5e8; padding: 15px; border-radius: 5px;"><strong>📢 [Your announcement details here]</strong></p><p><br></p><p><strong>What this means for you:</strong></p><ul><li>Benefit #1</li><li>Benefit #2</li><li>Benefit #3</li></ul><p><br></p><p>Questions? Contact us at info@dazzlo.co.in</p><p><br></p><p>Best regards,<br>The Dazzlo Team</p>';
+            break;
+            
+        case 'invitation':
+            subject = '🎊 You\'re Invited! - Special Event';
+            content = '<div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;"><h1 style="margin: 0; font-size: 28px;">🎊 You\'re Invited! 🎊</h1></div><p>Dear {name},</p><p><br></p><p>We\'re delighted to invite you to our upcoming event!</p><p><br></p><div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;"><h3 style="color: #2c3e50; margin-top: 0;">[Event Name]</h3><p><strong>📅 Date:</strong> [Event Date]</p><p><strong>🕐 Time:</strong> [Event Time]</p><p><strong>📍 Location:</strong> [Event Location]</p></div><p><br></p><p>We look forward to seeing you there!</p><p><br></p><p>Best regards,<br>The Event Team</p>';
+            break;
+    }
+    
+    // Load template content
+    subjectField.value = subject;
+    editor.innerHTML = content;
+    
+    // Trigger content sync
+    setTimeout(function() {
+        editor.dispatchEvent(new Event('input'));
+    }, 100);
+    
+    showNotification('Template loaded successfully!', 'success');
+}
+
+// CSV Notepad Functions
+function downloadCsvNotepad() {
+    const text = document.getElementById('csvNotepadTextarea').value;
+    const blob = new Blob([text], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'contacts.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showNotification('CSV file downloaded successfully!', 'success');
+}
+
+function useCsvNotepad() {
+    const text = document.getElementById('csvNotepadTextarea').value;
+    const blob = new Blob([text], { type: 'text/csv' });
+    const file = new File([blob], 'contacts.csv', { type: 'text/csv' });
+    const input = document.querySelector('input[name="email_list"]');
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    input.files = dataTransfer.files;
+    
+    const modal = bootstrap.Modal.getInstance(document.getElementById('csvNotepadModal'));
+    modal.hide();
+    
+    // Update campaign status
+    setTimeout(function() {
+        document.dispatchEvent(new Event('change'));
+    }, 100);
+    
+    showNotification('CSV created and added to upload field!', 'success');
+}
+
+// Notification function
+function showNotification(message, type) {
+    // Create a more sophisticated notification
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px; max-width: 400px;';
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 150);
+        }
+    }, 5000);
+}
+
+console.log('✅ DazzloGo Email Platform loaded successfully!');
+</script>
+{% endblock %}
