@@ -298,6 +298,12 @@ def init_db():
         )
     ''')
     
+    # Ensure contact_number column exists (for existing DBs)
+    cursor.execute("PRAGMA table_info(users)")
+    columns = [col[1] for col in cursor.fetchall()]
+    if 'contact_number' not in columns:
+        cursor.execute('ALTER TABLE users ADD COLUMN contact_number TEXT')
+    
     # Email campaigns table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS email_campaigns (

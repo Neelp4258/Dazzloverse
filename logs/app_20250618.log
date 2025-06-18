@@ -1,0 +1,4 @@
+2025-06-18 11:47:30,060 - dazzlego - INFO - Parsing CSV file: uploads\csv_3_1750227450_email_list.csv
+2025-06-18 11:47:30,064 - dazzlego - INFO - Detected CSV delimiter: ','
+2025-06-18 11:47:30,065 - dazzlego - INFO - CSV columns: ['email', 'name', 'company'] -> ['email', 'name', 'company']
+2025-06-18 11:47:30,066 - dazzlego - INFO - Successfully parsed 1 recipients from 1 rows
