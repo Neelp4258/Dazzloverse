@@ -289,6 +289,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
             full_name TEXT NOT NULL,
+            contact_number TEXT,
             password_hash TEXT NOT NULL,
             plan TEXT DEFAULT 'free',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -386,6 +387,7 @@ class LoginForm(FlaskForm):
 class SignupForm(FlaskForm):
     full_name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    contact_number = StringField('Contact Number', validators=[DataRequired(), Length(min=8, max=20)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Create Account')
@@ -630,9 +632,9 @@ def signup():
         # Create new user (always free plan)
         password_hash = generate_password_hash(form.password.data)
         cursor.execute('''
-            INSERT INTO users (email, full_name, password_hash, plan)
-            VALUES (?, ?, ?, ?)
-        ''', (form.email.data, form.full_name.data, password_hash, 'free'))
+            INSERT INTO users (email, full_name, contact_number, password_hash, plan)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (form.email.data, form.full_name.data, form.contact_number.data, password_hash, 'free'))
         
         conn.commit()
         user_id = cursor.lastrowid

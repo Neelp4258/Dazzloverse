@@ -191,6 +191,15 @@
                                         This will be your login email address. <span class="text-success fw-semibold">We never store your app passwords or emails.</span>
                                     </div>
                                 </div>
+                                <div class="mb-3">
+                                    {{ form.contact_number.label(class="form-label fw-semibold") }}
+                                    {{ form.contact_number(class="form-control form-control-lg") }}
+                                    {% if form.contact_number.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.contact_number.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
