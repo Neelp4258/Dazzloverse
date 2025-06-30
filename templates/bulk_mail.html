@@ -194,7 +194,7 @@
                         </div>
                         
                         <!-- Hidden textarea to store the content -->
-                        {{ form.body(style="display: none;", id="hiddenBodyField") }}
+                        {{ form.body(style="display: none;", id="hiddenBodyField", required="required") }}
                         
                         <!-- Hidden file input for image uploads -->
                         <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
@@ -557,7 +557,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusElement = document.getElementById('campaignStatus');
     const credentialStatus = document.getElementById('credentialStatus');
     
-    // FIXED: Improved content syncing to preserve HTML
+    // Initialize hidden field with editor content
+    hiddenField.value = editor.innerHTML;
+    
+    // Sync editor content to hidden field
     function syncEditorContent() {
         let htmlContent = editor.innerHTML;
         
@@ -593,21 +596,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Rich text editor event listeners
+    // Add input event listener to editor
     editor.addEventListener('input', function() {
-        setTimeout(syncEditorContent, 100);
+        syncEditorContent();
     });
     
-    editor.addEventListener('paste', function(e) {
-        setTimeout(function() {
-            syncEditorContent();
-        }, 200);
-    });
-    
-    editor.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
-            setTimeout(syncEditorContent, 50);
+    // Add form submit handler
+    document.getElementById('bulkMailForm').addEventListener('submit', function(e) {
+        // Force sync content before submission
+        syncEditorContent();
+        
+        const csvFile = document.querySelector('input[name="email_list"]').files[0];
+        const hasCredentials = credentialStatus.style.display !== 'none';
+        const bodyContent = hiddenField.value.trim();
+        const subject = document.querySelector('input[name="subject"]').value.trim();
+        
+        // Validate all required fields
+        if (!csvFile) {
+            e.preventDefault();
+            showNotification('Please upload a CSV file with email addresses', 'error');
+            return;
         }
+        
+        if (!hasCredentials) {
+            e.preventDefault();
+            showNotification('Please validate your SMTP credentials first', 'error');
+            return;
+        }
+        
+        if (!subject) {
+            e.preventDefault();
+            showNotification('Please enter an email subject', 'error');
+            return;
+        }
+        
+        if (!bodyContent || bodyContent === '<p><br></p>' || bodyContent === '<br>' || bodyContent === '') {
+            e.preventDefault();
+            showNotification('Please enter email content', 'error');
+            return;
+        }
+        
+        // Confirm campaign launch
+        if (!confirm('Are you sure you want to launch this email campaign? This action cannot be undone.')) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        const btnText = submitBtn.querySelector('.btn-text');
+        const spinner = submitBtn.querySelector('.loading-spinner');
+        btnText.textContent = 'Launching Campaign...';
+        spinner.style.display = 'inline-block';
     });
     
     // Load initial content if exists
@@ -674,53 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
             btnText.textContent = 'Validate SMTP Settings';
             spinner.style.display = 'none';
         });
-    });
-    
-    // FIXED: Form submission with proper validation
-    document.getElementById('bulkMailForm').addEventListener('submit', function(e) {
-        // Force sync content before submission
-        syncEditorContent();
-        
-        const csvFile = document.querySelector('input[name="email_list"]').files[0];
-        const hasCredentials = credentialStatus.style.display !== 'none';
-        const bodyContent = hiddenField.value.trim();
-        const subject = document.querySelector('input[name="subject"]').value.trim();
-        
-        if (!csvFile) {
-            e.preventDefault();
-            showNotification('Please upload a CSV file with email addresses', 'error');
-            return;
-        }
-        
-        if (!hasCredentials) {
-            e.preventDefault();
-            showNotification('Please validate your SMTP credentials first', 'error');
-            return;
-        }
-        
-        if (!subject) {
-            e.preventDefault();
-            showNotification('Please enter an email subject', 'error');
-            return;
-        }
-        
-        if (!bodyContent || bodyContent === '<p><br></p>' || bodyContent === '<br>' || bodyContent === '') {
-            e.preventDefault();
-            showNotification('Please enter email content', 'error');
-            return;
-        }
-        
-        if (!confirm('Are you sure you want to launch this email campaign? This action cannot be undone.')) {
-            e.preventDefault();
-            return;
-        }
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        const btnText = submitBtn.querySelector('.btn-text');
-        const spinner = submitBtn.querySelector('.loading-spinner');
-        btnText.textContent = 'Launching Campaign...';
-        spinner.style.display = 'inline-block';
     });
     
     // Update status on form changes
